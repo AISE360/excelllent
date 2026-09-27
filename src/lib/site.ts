@@ -145,6 +145,9 @@ export const AREAS = [
   "Hadapsar", "Kondhwa", "Katraj", "Deccan", "Shivajinagar",
 ];
 
+export const DEMO_VIDEO_ID = "5RdtFaFhsXM";
+export const DEMO_VIDEO_URL = `https://youtu.be/${DEMO_VIDEO_ID}`;
+
 export function inr(n: number) {
   return "₹ " + n.toLocaleString("en-IN");
 }

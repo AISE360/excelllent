@@ -2,6 +2,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { getLang } from "@/lib/i18n";
 import { tr } from "@/lib/strings";
+import { DEMO_VIDEO_ID } from "@/lib/site";
 
 export const metadata = { title: "Installation Gallery" };
 
@@ -18,6 +19,18 @@ export default async function GalleryPage() {
       <p className="text-[12px] text-stone-500">Home ＞ Gallery</p>
       <h1 className="font-display mt-1 text-5xl font-bold">{t("gallery_t")}</h1>
       <p className="mt-2 text-[13px] text-stone-500">{t("gallery_s")}</p>
+      <div className="mt-6 overflow-hidden border border-stone-200 bg-ink">
+        <div className="aspect-video w-full">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${DEMO_VIDEO_ID}?rel=0`}
+            title="Excellent Dry system fitting demo video"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="h-full w-full"
+          />
+        </div>
+      </div>
       <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         {files.map((f) => (
           // eslint-disable-next-line @next/next/no-img-element

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, Home as HomeIcon, ShieldCheck, Star, Wrench } from "lucide-react";
-import { inr, PRODUCTS, TESTIMONIALS } from "@/lib/site";
+import { inr, DEMO_VIDEO_ID, PRODUCTS, TESTIMONIALS } from "@/lib/site";
 import { type Key } from "@/lib/strings";
 import { useT } from "@/components/LanguageSwitcher";
 import Reveal from "@/components/Reveal";
@@ -175,6 +175,30 @@ export default function Home() {
         <Reveal delay={120}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/legacy/hero-3.png" alt="Easy home drying" className="h-full w-full object-cover" />
+        </Reveal>
+      </section>
+
+      {/* fitting demo video */}
+      <section className="mx-auto max-w-6xl px-4 pt-12">
+        <Reveal>
+          <p className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-brand-yellow">
+            <span className="inline-block h-[3px] w-8 bg-brand-yellow" /> Watch how it fits
+          </p>
+          <h2 className="font-display mt-1 text-5xl font-bold md:text-6xl">See it in action.</h2>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="mt-5 overflow-hidden border border-stone-200 bg-ink">
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${DEMO_VIDEO_ID}?rel=0`}
+                title="Excellent Dry system fitting demo video"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="h-full w-full"
+              />
+            </div>
+          </div>
         </Reveal>
       </section>
 
