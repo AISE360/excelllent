@@ -119,6 +119,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* corporate clients marquee */}
+      <section className="mt-12 bg-stone-50 py-10">
+        <Reveal>
+          <h2 className="font-display text-center text-4xl font-bold md:text-5xl">{t("clients_t")}</h2>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className="marquee marquee-mask mt-6 overflow-hidden">
+            <div className="marquee-track flex w-max items-center gap-10 pr-10">
+              {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((n, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={`/legacy/clients/client${n}.jpg`}
+                  alt={`Corporate client ${n}`}
+                  loading="lazy"
+                  className="h-20 w-auto shrink-0 bg-white object-contain px-4 transition hover:scale-105"
+                />
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* get inspired */}
       <section className="mx-auto max-w-6xl px-4 pt-12">
         <Reveal>

@@ -75,7 +75,23 @@ body {
   box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.3);
 }
 
+/* client logo marquee (right to left) */
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-rtl 30s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-mask {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .rise, .slow-zoom { animation: none; }
   html { scroll-behavior: auto; }
