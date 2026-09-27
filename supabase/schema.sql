@@ -7,7 +7,7 @@ create table if not exists site_settings (
   phone2 text default '+91 7719946592',
   email text default 'excellentdry@gmail.com',
   address text default 'Jai Ganesh Vision, D-Wing Shop No. 15, Ground Floor, Nr. Hotel Angan, Akurdi, Pune 411035',
-  hours text default 'Mon–Sun · 10:00 AM – 6:00 PM',
+  hours text default 'Mon-Sun, 10:00 AM to 6:00 PM',
   constraint single_row check (id = 1)
 );
 

@@ -13,7 +13,7 @@ export default function Home() {
                 Dry smart.<br />Save space.
               </h1>
               <p className="mt-4 text-[14px] leading-relaxed">
-                Pulley-operated terrace & ceiling systems and foldable wall stands —
+                Pulley-operated terrace and ceiling systems and foldable wall stands:
                 304-grade steel, installed across Pune in days. 1,00,000+ happy homes.
               </p>
               <Link

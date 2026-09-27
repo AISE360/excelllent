@@ -8,7 +8,7 @@ insert into hero_slides (title, subtitle, image_url, cta_text, cta_href, sort) v
 
 insert into products (slug, name, category, size, mrp, price, image_url, blurb) values
 ('open-terrace-4ft', 'Open Terrace Fitting 4 Feet · 4 Lines', 'Open Terrace', '4 Ft', 4500, 3825, '/legacy/products/open-terrace/open-terrace-fitting-4-feet-4-lines.jpg', 'Pulley-operated terrace system with rust-proof pipes & UV-grade rope.'),
-('open-terrace-5ft', 'Open Terrace Fitting 5 Feet · 4 Lines', 'Open Terrace', '5 Ft', 4600, 3910, '/legacy/products/open-terrace/open-terrace-fitting-5-feet-4-lines.jpg', 'Best for 4–5 member families. Lower, load & raise with one pull.'),
+('open-terrace-5ft', 'Open Terrace Fitting 5 Feet · 4 Lines', 'Open Terrace', '5 Ft', 4600, 3910, '/legacy/products/open-terrace/open-terrace-fitting-5-feet-4-lines.jpg', 'Best for 4 to 5 member families. Lower, load and raise with one pull.'),
 ('open-terrace-6ft', 'Open Terrace Fitting 6 Feet · 4 Lines', 'Open Terrace', '6 Ft', 4700, 3995, '/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg', 'Extra drying length for heavy laundry days & large homes.'),
 ('ceiling-mount-4ft', 'Ceiling Mount Fitting 4 Feet · 4 Lines', 'Ceiling Mount', '4 Ft', 3600, 3060, '/legacy/products/ceiling-mount/ceiling-mount-fitting-4-feet-4-lines.jpg', 'Space-saving balcony & passage fitting. Elegant ceiling look.'),
 ('ceiling-mount-5ft', 'Ceiling Mount Fitting 5 Feet · 4 Lines', 'Ceiling Mount', '5 Ft', 3700, 3145, '/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg', 'Bestseller for flats & balconies across Pune.'),
@@ -20,6 +20,6 @@ on conflict (slug) do update set name = excluded.name, price = excluded.price, m
   image_url = excluded.image_url, blurb = excluded.blurb, category = excluded.category, size = excluded.size;
 
 insert into testimonials (name, area, text) values
-('Poonam Yadav', 'Baner, Pune', 'Using the pulley system for a couple of months. Working smoothly, easy to use — it manages our drying space so effectively.'),
+('Poonam Yadav', 'Baner, Pune', 'Using the pulley system for a couple of months. Working smoothly, easy to use, and it manages our drying space so effectively.'),
 ('Anil Mahajan', 'Kothrud, Pune', 'Six members in the family and the balcony felt tiny. Thanks to Excellent Dry, all clothes dry faster with proper spacing.'),
 ('Mallikarjuna Swamy', 'Wakad, Pune', 'Good quality product, professional installation. An asset with real utility for every house.');

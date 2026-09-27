@@ -13,7 +13,7 @@ export default async function GalleryPage() {
     <div className="mx-auto max-w-6xl px-4 pt-4">
       <p className="text-[12px] text-stone-500">Home ＞ Gallery</p>
       <h1 className="font-display mt-1 text-5xl font-bold">Get inspired.</h1>
-      <p className="mt-2 text-[13px] text-stone-500">Real fittings across Pune — new photos are added from Admin → Media.</p>
+      <p className="mt-2 text-[13px] text-stone-500">Real fittings across Pune. New photos are added from Admin Media.</p>
       <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         {files.map((f) => (
           // eslint-disable-next-line @next/next/no-img-element

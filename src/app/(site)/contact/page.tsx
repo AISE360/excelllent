@@ -1,7 +1,7 @@
 import EnquiryForm from "@/components/EnquiryForm";
 import { SITE } from "@/lib/site";
 
-export const metadata = { title: "Contact — Free Quote & Site Visit" };
+export const metadata = { title: "Contact: Free Quote and Site Visit" };
 
 export default async function ContactPage({
   searchParams,

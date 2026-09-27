@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!p) return {};
   return {
     title: `${p.name} in Pune`,
-    description: `${p.name} — ${p.blurb} MRP ${inr(p.mrp)}, offer ${inr(p.price)} with installation in Pune.`,
+    description: `${p.name}: ${p.blurb} MRP ${inr(p.mrp)}, offer ${inr(p.price)} with installation in Pune.`,
   };
 }
 
@@ -52,7 +52,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
           <p className="mt-3 text-[14px] leading-relaxed text-stone-600">{p.blurb}</p>
           <ul className="mt-4 space-y-1.5 text-sm text-stone-600">
             <li>✓ Free measurement guidance on call/WhatsApp</li>
-            <li>✓ Professional installation across Pune (60–90 min)</li>
+            <li>✓ Professional installation across Pune (60-90 min)</li>
             <li>✓ GST invoice · service support on call</li>
           </ul>
           <div className="mt-6 border border-stone-200 p-5">

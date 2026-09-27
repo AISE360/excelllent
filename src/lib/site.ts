@@ -7,7 +7,7 @@ export const SITE = {
   email: "excellentdry@gmail.com",
   address:
     "Jai Ganesh Vision, D-Wing Shop No. 15, Ground Floor, Nr. Hotel Angan, Akurdi, Pune 411035",
-  hours: "Mon–Sun · 10:00 AM – 6:00 PM",
+  hours: "Mon-Sun, 10:00 AM to 6:00 PM",
 };
 
 export type Product = {
@@ -40,7 +40,7 @@ export const PRODUCTS: Product[] = [
     mrp: 4600,
     price: 3910,
     image: "/legacy/products/open-terrace/open-terrace-fitting-5-feet-4-lines.jpg",
-    blurb: "Best for 4–5 member families. Lower, load & raise with one pull.",
+    blurb: "Best for 4 to 5 member families. Lower, load and raise with one pull.",
   },
   {
     slug: "open-terrace-6ft",
@@ -118,7 +118,7 @@ export const TESTIMONIALS = [
   {
     name: "Poonam Yadav",
     area: "Baner, Pune",
-    text: "Using the pulley system for a couple of months. Working smoothly, easy to use — it manages our drying space so effectively.",
+    text: "Using the pulley system for a couple of months. Working smoothly, easy to use, and it manages our drying space so effectively.",
   },
   {
     name: "Anil Mahajan",

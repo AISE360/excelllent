@@ -39,7 +39,7 @@ export default function AdminPage() {
 
   const [leads, setLeads] = useState<Lead[]>([]);
   const [products, setProducts] = useState<Product[]>(SEED);
-  const [settings, setSettings] = useState({ phone1: "+91 9226848274", phone2: "+91 7719946592", email: "excellentdry@gmail.com", address: "Akurdi, Pune", hours: "Mon–Sun · 10:00 AM – 6:00 PM" });
+  const [settings, setSettings] = useState({ phone1: "+91 9226848274", phone2: "+91 7719946592", email: "excellentdry@gmail.com", address: "Akurdi, Pune", hours: "Mon-Sun, 10:00 AM to 6:00 PM" });
   const [editing, setEditing] = useState<Product | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [msg, setMsg] = useState("");
@@ -159,7 +159,7 @@ export default function AdminPage() {
       setMsg(error ? error.message : "Settings saved ✓");
     } else {
       localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
-      setMsg("Settings saved ✓ (demo — stored in this browser)");
+      setMsg("Settings saved ✓ (demo , stored in this browser)");
     }
   }
 
@@ -173,7 +173,7 @@ export default function AdminPage() {
       if (!configured) {
         const url = URL.createObjectURL(webp);
         setUploads([url, ...uploads]);
-        setMsg(`Compressed to webp ${(webp.size / 1024).toFixed(0)} KB (demo — connect Supabase to store permanently).`);
+        setMsg(`Compressed to webp ${(webp.size / 1024).toFixed(0)} KB (demo , connect Supabase to store permanently).`);
       } else {
         const path = `uploads/${Date.now()}.webp`;
         const { error } = await supabaseBrowser().storage.from("site-images").upload(path, webp, { contentType: "image/webp", upsert: true });
@@ -199,7 +199,7 @@ export default function AdminPage() {
         <div className="mx-auto max-w-md px-4 py-16">
           <p className="font-display text-4xl font-bold">Admin login.</p>
           <p className="mt-1 text-sm text-stone-500">
-            {configured ? "Sign in with your Supabase team account." : "Demo mode — use the demo credentials below."}
+            {configured ? "Sign in with your Supabase team account." : "Demo mode , use the demo credentials below."}
           </p>
           <form onSubmit={login} className="mt-6 border border-stone-200 bg-white p-6">
             <label className="text-xs font-bold uppercase text-stone-400">Email</label>
@@ -242,7 +242,7 @@ export default function AdminPage() {
         <div>
           <p className="font-display text-4xl font-bold">Dashboard.</p>
           <p className="text-[13px] text-stone-500">
-            {configured ? "Connected to Supabase ✓" : "Demo mode — add Supabase keys in .env.local for live data"}
+            {configured ? "Connected to Supabase ✓" : "Demo mode , add Supabase keys in .env.local for live data"}
           </p>
         </div>
         <button onClick={logout} className="flex items-center gap-1.5 border border-stone-300 px-3 py-2 text-[13px] font-semibold">
@@ -383,7 +383,7 @@ export default function AdminPage() {
 
           {tab === "Media" && (
             <div className="border border-stone-200 bg-white p-5">
-              <p className="text-sm font-bold">Upload image — auto-converts to .webp</p>
+              <p className="text-sm font-bold">Upload image , auto-converts to .webp</p>
               <p className="mt-1 text-[13px] text-stone-500">Compressed to max 1600px / ~0.8MB before upload.</p>
               <input type="file" accept="image/*" onChange={upload} className="mt-3 text-sm" />
               {uploading && <p className="mt-2 text-sm">Compressing & uploading…</p>}
@@ -419,7 +419,7 @@ export default function AdminPage() {
   );
 }
 
-/** Slim admin-only bar — no storefront menu, footer or WhatsApp here. */
+/** Slim admin-only bar , no storefront menu, footer or WhatsApp here. */
 function AdminBar() {
   return (
     <div className="border-b border-stone-200 bg-white">

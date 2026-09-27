@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s | Excellent Dry System Pune",
   },
   description:
-    "Manufacturer of pulley-operated clothes drying systems in Pune — open terrace, ceiling mount & wall mount stands. 1,00,000+ installations, same-week fitting, 304-grade steel.",
+    "Manufacturer of pulley-operated clothes drying systems in Pune: open terrace, ceiling mount and wall mount stands. 1,00,000+ installations, same-week fitting, 304-grade steel.",
   keywords: [
     "clothes drying stand", "cloth drying rack", "wall mounted clothes drying rack",
     "pulley operated cloth drying system", "ceiling mount clothes dryer", "clothes drying stand manufacturer pune",

@@ -38,7 +38,7 @@ export default async function ProductsPage({
       <h1 className="font-display mt-1 text-5xl font-bold">Drying rack</h1>
       <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-stone-500">
         Clothes horses to fall in love with. Dry without a dryer on a pulley-operated
-        Excellent Dry system instead — stable, easy to use, and available for terrace,
+        Excellent Dry system instead. Stable, easy to use, and available for terrace,
         ceiling and wall. {q && <>Results for “<strong>{q}</strong>”.</>}
       </p>
 
