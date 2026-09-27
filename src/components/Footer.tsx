@@ -24,6 +24,7 @@ export default function Footer() {
         <div>
           <p className="font-semibold">Service</p>
           <ul className="mt-3 space-y-2 text-stone-500">
+            <li><Link className="hover:text-ink" href="/about">About us</Link></li>
             <li><Link className="hover:text-ink" href="/contact">Contact & site visit</Link></li>
             <li><Link className="hover:text-ink" href="/become-retailer">Become a retailer</Link></li>
             <li><Link className="hover:text-ink" href="/gallery">Installation gallery</Link></li>

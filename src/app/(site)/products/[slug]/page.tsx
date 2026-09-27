@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EnquiryForm from "@/components/EnquiryForm";
+import AddToCart from "@/components/AddToCart";
 import { PRODUCTS, inr } from "@/lib/site";
 
 export async function generateStaticParams() {
@@ -55,7 +56,13 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
             <li>✓ Professional installation across Pune (60-90 min)</li>
             <li>✓ GST invoice · service support on call</li>
           </ul>
-          <div className="mt-6 border border-stone-200 p-5">
+          <div className="mt-6 flex gap-2">
+            <AddToCart slug={p.slug} />
+            <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="flex flex-1 items-center justify-center bg-brand-yellow py-3.5 text-sm font-bold text-ink transition hover:brightness-95">
+              Order Now
+            </Link>
+          </div>
+          <div className="mt-4 border border-stone-200 p-5">
             <p className="font-display text-2xl font-bold">Order this product.</p>
             <div className="mt-3"><EnquiryForm product={p.name} /></div>
           </div>

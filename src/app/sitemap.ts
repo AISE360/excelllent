@@ -4,7 +4,7 @@ import { PRODUCTS } from "@/lib/site";
 const BASE = "https://www.excellentdrysystem.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const statics = ["", "/products", "/about", "/gallery", "/testimonials", "/become-retailer", "/contact"].map(
+  const statics = ["", "/products", "/cart", "/about", "/gallery", "/testimonials", "/become-retailer", "/contact"].map(
     (p) => ({ url: `${BASE}${p}`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: p === "" ? 1 : 0.8 })
   );
   const products = PRODUCTS.map((p) => ({
