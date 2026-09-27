@@ -71,7 +71,7 @@ export default function EnquiryForm({ product = "" }: { product?: string }) {
         value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
       <button
         disabled={busy}
-        className="rounded-xl bg-pine-800 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-pine-700 disabled:opacity-60"
+        className="bg-ink px-6 py-3 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-60"
       >
         {busy ? "Sending…" : "Request Free Callback"}
       </button>

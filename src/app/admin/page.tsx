@@ -1,50 +1,166 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { LayoutDashboard, Inbox, Package, Image as ImageIcon, Settings as SettingsIcon, LogOut, Plus, Pencil, Trash2, Download } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { toWebp } from "@/lib/image";
-import { PRODUCTS as SEED } from "@/lib/site";
+import { PRODUCTS as SEED, type Product } from "@/lib/site";
+
+const DEMO_EMAIL = "admin@excellentdry.com";
+const DEMO_PASS = "excellent123";
 
 type Lead = { id: string; created_at: string; name: string; phone: string; area: string; product: string; message: string };
+type Tab = "Overview" | "Enquiries" | "Products" | "Media" | "Settings";
 
-const TABS = ["Leads", "Products", "Images", "Settings"] as const;
+const LS_PRODUCTS = "ed_products";
+const LS_LEADS = "ed_leads";
+const LS_SETTINGS = "ed_settings";
+const LS_SESSION = "ed_admin";
+
+function load<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export default function AdminPage() {
-  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
-  const [authed, setAuthed] = useState(!configured); // demo mode when env missing
+  const configured = useMemo(() => Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL), []);
+  const [authed, setAuthed] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [tab, setTab] = useState<(typeof TABS)[number]>("Leads");
+  const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState<Tab>("Overview");
+
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [products, setProducts] = useState<Product[]>(SEED);
+  const [settings, setSettings] = useState({ phone1: "+91 9226848274", phone2: "+91 7719946592", email: "excellentdry@gmail.com", address: "Akurdi, Pune", hours: "Mon–Sun · 10:00 AM – 6:00 PM" });
+  const [editing, setEditing] = useState<Product | null>(null);
+  const [isNew, setIsNew] = useState(false);
   const [msg, setMsg] = useState("");
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState("");
+  const [uploads, setUploads] = useState<string[]>([]);
 
+  /* ---------- session ---------- */
   useEffect(() => {
-    if (!configured) return;
-    supabaseBrowser().auth.getSession().then(({ data }) => setAuthed(Boolean(data.session)));
+    (async () => {
+      if (configured) {
+        const { data } = await supabaseBrowser().auth.getSession();
+        setAuthed(Boolean(data.session));
+      } else {
+        setAuthed(localStorage.getItem(LS_SESSION) === "1");
+        setProducts(load(LS_PRODUCTS, SEED));
+        setLeads(load<Lead[]>(LS_LEADS, [
+          { id: "demo-1", created_at: new Date().toISOString(), name: "Priya Sharma", phone: "9876543210", area: "Baner", product: "Ceiling Mount 5ft", message: "Need fitting this weekend." },
+          { id: "demo-2", created_at: new Date().toISOString(), name: "Rahul Patil", phone: "9822012345", area: "Kothrud", product: "Wall Mount 4ft", message: "Please share quote." },
+        ]));
+        setSettings(load(LS_SETTINGS, settings));
+      }
+      setChecking(false);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [configured]);
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
-    const { error } = await supabaseBrowser().auth.signInWithPassword({ email, password });
-    if (error) setMsg(error.message);
-    else setAuthed(true);
+    setBusy(true);
+    setErr("");
+    try {
+      if (configured) {
+        const { error } = await supabaseBrowser().auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        setAuthed(true);
+      } else {
+        if (email === DEMO_EMAIL && password === DEMO_PASS) {
+          localStorage.setItem(LS_SESSION, "1");
+          setAuthed(true);
+        } else throw new Error("Wrong demo credentials. Use the demo login shown below.");
+      }
+    } catch (e: unknown) {
+      setErr(e instanceof Error ? e.message : "Login failed");
+    }
+    setBusy(false);
   }
 
-  async function loadLeads() {
-    if (!configured) {
-      setLeads([{ id: "demo", created_at: new Date().toISOString(), name: "Demo Lead", phone: "9876543210", area: "Baner", product: "Ceiling Mount 5ft", message: "Connect Supabase to see live enquiries." }]);
-      return;
+  async function logout() {
+    if (configured) await supabaseBrowser().auth.signOut();
+    else localStorage.removeItem(LS_SESSION);
+    setAuthed(false);
+  }
+
+  /* ---------- data ---------- */
+  async function refresh() {
+    if (!authed) return;
+    if (configured) {
+      const sb = supabaseBrowser();
+      const [l, p, s] = await Promise.all([
+        sb.from("leads").select("*").order("created_at", { ascending: false }).limit(200),
+        sb.from("products").select("*").order("name"),
+        sb.from("site_settings").select("*").eq("id", 1).single(),
+      ]);
+      if (l.data) setLeads(l.data as Lead[]);
+      if (p.data && p.data.length) {
+        setProducts(p.data.map((r) => ({ slug: r.slug, name: r.name, category: r.category, size: r.size ?? "", mrp: Number(r.mrp), price: Number(r.price), image: r.image_url ?? "", blurb: r.blurb ?? "" })));
+      }
+      if (s.data) setSettings({ phone1: s.data.phone1, phone2: s.data.phone2, email: s.data.email, address: s.data.address, hours: s.data.hours });
+    } else {
+      setProducts(load(LS_PRODUCTS, SEED));
+      setLeads(load(LS_LEADS, []));
+      setSettings(load(LS_SETTINGS, settings));
     }
-    const { data } = await supabaseBrowser().from("leads").select("*").order("created_at", { ascending: false }).limit(100);
-    setLeads((data as Lead[]) ?? []);
   }
 
   useEffect(() => {
-    if (authed) loadLeads();
+    if (authed) refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authed, tab]);
+  }, [authed]);
+
+  function persistProducts(next: Product[]) {
+    setProducts(next);
+    if (!configured) localStorage.setItem(LS_PRODUCTS, JSON.stringify(next));
+  }
+
+  async function saveProduct() {
+    if (!editing) return;
+    setMsg("");
+    if (configured) {
+      const { error } = await supabaseBrowser().from("products").upsert({
+        slug: editing.slug, name: editing.name, category: editing.category, size: editing.size,
+        mrp: editing.mrp, price: editing.price, image_url: editing.image, blurb: editing.blurb, active: true,
+      }, { onConflict: "slug" });
+      if (error) { setMsg(error.message); return; }
+    }
+    const exists = products.some((p) => p.slug === editing.slug);
+    persistProducts(exists ? products.map((p) => (p.slug === editing.slug ? editing : p)) : [...products, editing]);
+    setEditing(null);
+    setMsg("Product saved ✓");
+  }
+
+  async function deleteProduct(slug: string) {
+    if (!confirm("Delete this product?")) return;
+    if (configured) await supabaseBrowser().from("products").delete().eq("slug", slug);
+    persistProducts(products.filter((p) => p.slug !== slug));
+  }
+
+  async function deleteLead(id: string) {
+    if (configured) await supabaseBrowser().from("leads").delete().eq("id", id);
+    else localStorage.setItem(LS_LEADS, JSON.stringify(leads.filter((l) => l.id !== id)));
+    setLeads(leads.filter((l) => l.id !== id));
+  }
+
+  async function saveSettings() {
+    if (configured) {
+      const { error } = await supabaseBrowser().from("site_settings").update({ ...settings }).eq("id", 1);
+      setMsg(error ? error.message : "Settings saved ✓");
+    } else {
+      localStorage.setItem(LS_SETTINGS, JSON.stringify(settings));
+      setMsg("Settings saved ✓ (demo — stored in this browser)");
+    }
+  }
 
   async function upload(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -52,131 +168,246 @@ export default function AdminPage() {
     setUploading(true);
     setMsg("");
     try {
-      const webp = await toWebp(f); // ← auto .webp compress
+      const webp = await toWebp(f);
       if (!configured) {
-        setUploadedUrl(URL.createObjectURL(webp));
-        setMsg(`Compressed to webp: ${(webp.size / 1024).toFixed(0)} KB (demo — connect Supabase to store).`);
-        return;
+        const url = URL.createObjectURL(webp);
+        setUploads([url, ...uploads]);
+        setMsg(`Compressed to webp ${(webp.size / 1024).toFixed(0)} KB (demo — connect Supabase to store permanently).`);
+      } else {
+        const path = `uploads/${Date.now()}.webp`;
+        const { error } = await supabaseBrowser().storage.from("site-images").upload(path, webp, { contentType: "image/webp", upsert: true });
+        if (error) throw error;
+        const { data } = supabaseBrowser().storage.from("site-images").getPublicUrl(path);
+        setUploads([data.publicUrl, ...uploads]);
+        setMsg("Uploaded as optimised .webp ✓ Paste the URL into a product.");
       }
-      const path = `uploads/${Date.now()}.webp`;
-      const { error } = await supabaseBrowser().storage.from("site-images").upload(path, webp, {
-        contentType: "image/webp",
-        upsert: true,
-      });
-      if (error) throw error;
-      const { data } = supabaseBrowser().storage.from("site-images").getPublicUrl(path);
-      setUploadedUrl(data.publicUrl);
-      setMsg("Uploaded as optimised .webp ✓ Copy the URL into Products/Hero.");
     } catch (err: unknown) {
       setMsg(err instanceof Error ? err.message : "Upload failed");
     }
     setUploading(false);
   }
 
+  /* ---------- login screen ---------- */
+  if (checking) return <p className="mx-auto max-w-6xl px-4 py-20 text-sm text-stone-400">Loading…</p>;
+
   if (!authed) {
     return (
-      <div className="mx-auto max-w-md px-4 py-16">
-        <h1 className="text-2xl font-extrabold text-pine-950">Admin login</h1>
-        <p className="mt-1 text-sm text-stone-500">
-          {configured ? "Sign in with your Supabase auth user." : "Demo mode — add Supabase env to enable real login."}
-        </p>
-        <form onSubmit={login} className="mt-6 grid gap-3">
-          <input className="rounded-xl border border-stone-300 px-4 py-3 text-sm" placeholder="admin email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input className="rounded-xl border border-stone-300 px-4 py-3 text-sm" type="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button className="rounded-xl bg-pine-800 px-4 py-3 text-sm font-bold text-white">Sign in</button>
-          {msg && <p className="text-sm text-red-600">{msg}</p>}
-        </form>
+      <div className="bg-card min-h-[70vh]">
+        <div className="mx-auto max-w-md px-4 py-16">
+          <p className="font-display text-4xl font-bold">Admin login.</p>
+          <p className="mt-1 text-sm text-stone-500">
+            {configured ? "Sign in with your Supabase team account." : "Demo mode — use the demo credentials below."}
+          </p>
+          <form onSubmit={login} className="mt-6 border border-stone-200 bg-white p-6">
+            <label className="text-xs font-bold uppercase text-stone-400">Email</label>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com"
+              className="mt-1 w-full border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-ink" />
+            <label className="mt-4 block text-xs font-bold uppercase text-stone-400">Password</label>
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="••••••••"
+              className="mt-1 w-full border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-ink" />
+            {err && <p className="mt-3 bg-red-50 p-2 text-[13px] text-red-700">{err}</p>}
+            <button disabled={busy} className="mt-5 w-full bg-ink py-3 text-sm font-bold text-white disabled:opacity-60">
+              {busy ? "Signing in…" : "Sign in →"}
+            </button>
+            {!configured && (
+              <p className="mt-4 bg-brand-yellow/40 p-3 text-[13px]">
+                Demo login<br /><strong>{DEMO_EMAIL}</strong> / <strong>{DEMO_PASS}</strong>
+              </p>
+            )}
+          </form>
+        </div>
       </div>
     );
   }
 
+  /* ---------- dashboard ---------- */
+  const NAV = [
+    { t: "Overview" as Tab, icon: <LayoutDashboard size={16} /> },
+    { t: "Enquiries" as Tab, icon: <Inbox size={16} /> },
+    { t: "Products" as Tab, icon: <Package size={16} /> },
+    { t: "Media" as Tab, icon: <ImageIcon size={16} /> },
+    { t: "Settings" as Tab, icon: <SettingsIcon size={16} /> },
+  ];
+  const inp = "w-full border border-stone-300 bg-white px-3 py-2 text-sm outline-none focus:border-ink";
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-extrabold text-pine-950">Admin panel {!configured && <span className="text-sm font-medium text-amber-600">(demo — Supabase not connected)</span>}</h1>
-        <button
-          className="rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold"
-          onClick={() => { if (configured) supabaseBrowser().auth.signOut(); setAuthed(!configured); }}
-        >
-          Sign out
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-display text-4xl font-bold">Dashboard.</p>
+          <p className="text-[13px] text-stone-500">
+            {configured ? "Connected to Supabase ✓" : "Demo mode — add Supabase keys in .env.local for live data"}
+          </p>
+        </div>
+        <button onClick={logout} className="flex items-center gap-1.5 border border-stone-300 px-3 py-2 text-[13px] font-semibold">
+          <LogOut size={14} /> Sign out
         </button>
       </div>
-      <div className="mt-5 flex gap-2">
-        {TABS.map((t) => (
-          <button key={t} onClick={() => setTab(t)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold ${tab === t ? "bg-pine-800 text-white" : "border border-stone-300 bg-white"}`}>
-            {t}
-          </button>
-        ))}
-      </div>
 
-      {tab === "Leads" && (
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-stone-200 bg-white">
-          <table className="w-full min-w-[640px] text-sm">
-            <thead><tr className="bg-stone-50 text-left text-xs uppercase text-stone-400">
-              <th className="p-3">Date</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">Area</th><th className="p-3">Product</th><th className="p-3">Message</th>
-            </tr></thead>
-            <tbody>
-              {leads.map((l) => (
-                <tr key={l.id} className="border-t border-stone-100">
-                  <td className="p-3 text-xs">{new Date(l.created_at).toLocaleString("en-IN")}</td>
-                  <td className="p-3 font-semibold">{l.name}</td>
-                  <td className="p-3"><a className="text-pine-700 font-semibold" href={`tel:${l.phone}`}>{l.phone}</a></td>
-                  <td className="p-3">{l.area}</td><td className="p-3">{l.product}</td><td className="p-3">{l.message}</td>
-                </tr>
-              ))}
-              {leads.length === 0 && <tr><td className="p-6 text-stone-400" colSpan={6}>No enquiries yet.</td></tr>}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div className="mt-6 grid gap-6 lg:grid-cols-[200px_1fr]">
+        <nav className="flex gap-2 overflow-x-auto lg:flex-col">
+          {NAV.map((n) => (
+            <button key={n.t} onClick={() => { setTab(n.t); setMsg(""); }}
+              className={`flex items-center gap-2 px-3 py-2.5 text-sm font-semibold ${tab === n.t ? "bg-ink text-white" : "bg-white border border-stone-200"}`}>
+              {n.icon} {n.t}
+              {n.t === "Enquiries" && leads.length > 0 && (
+                <span className="ml-auto bg-brand-yellow px-1.5 text-xs font-bold text-ink">{leads.length}</span>
+              )}
+            </button>
+          ))}
+        </nav>
 
-      {tab === "Products" && (
-        <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6">
-          <p className="text-sm text-stone-600">
-            Products live in Supabase table <code>products</code> (seed below mirrors the current site).
-            Edit them in Supabase Table Editor, or run <code>supabase/seed.sql</code>. Every field on the
-            website — price, image, blurb — comes from there once connected.
-          </p>
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            {SEED.map((p) => (
-              <div key={p.slug} className="rounded-xl bg-stone-50 p-3 text-xs">
-                <p className="font-bold">{p.name}</p>
-                <p className="text-stone-500">{p.slug} · ₹{p.price} · {p.image}</p>
+        <div className="min-w-0">
+          {msg && <p className="mb-4 bg-green-50 p-2.5 text-[13px] text-green-800">{msg}</p>}
+
+          {tab === "Overview" && (
+            <>
+              <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                {[
+                  ["Products", String(products.length)],
+                  ["Enquiries", String(leads.length)],
+                  ["Avg. rating", "4.8/5"],
+                  ["Installations", "1L+"],
+                ].map(([k, v]) => (
+                  <div key={k} className="border border-stone-200 bg-white p-5">
+                    <p className="font-display text-4xl font-bold">{v}</p>
+                    <p className="text-[13px] text-stone-500">{k}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+              <p className="mt-6 text-sm font-bold">Latest enquiries</p>
+              <div className="mt-2 border border-stone-200 bg-white">
+                {leads.slice(0, 5).map((l) => (
+                  <div key={l.id} className="flex justify-between gap-3 border-b border-stone-100 p-3 text-sm last:border-0">
+                    <span><strong>{l.name}</strong> <span className="text-stone-400">· {l.area} · {l.product}</span></span>
+                    <a className="font-semibold hover:underline" href={`tel:${l.phone}`}>{l.phone}</a>
+                  </div>
+                ))}
+                {leads.length === 0 && <p className="p-4 text-sm text-stone-400">No enquiries yet.</p>}
+              </div>
+            </>
+          )}
 
-      {tab === "Images" && (
-        <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6">
-          <h2 className="font-bold text-pine-950">Upload image (auto-converts to .webp)</h2>
-          <p className="mt-1 text-sm text-stone-500">Any JPG/PNG is compressed to max 1600px / ~0.8MB webp before upload to the <code>site-images</code> bucket.</p>
-          <input type="file" accept="image/*" onChange={upload} className="mt-4 text-sm" />
-          {uploading && <p className="mt-2 text-sm">Compressing & uploading…</p>}
-          {msg && <p className="mt-2 text-sm text-pine-700">{msg}</p>}
-          {uploadedUrl && (
-            <div className="mt-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={uploadedUrl} alt="uploaded" className="max-h-64 rounded-xl border" />
-              <p className="mt-2 break-all text-xs text-stone-500">{uploadedUrl}</p>
+          {tab === "Enquiries" && (
+            <div className="overflow-x-auto border border-stone-200 bg-white">
+              <div className="flex items-center justify-between border-b border-stone-200 p-3">
+                <p className="text-sm font-bold">{leads.length} enquiries</p>
+                <button
+                  onClick={() => {
+                    const csv = "name,phone,area,product,message\n" + leads.map((l) => [l.name, l.phone, l.area, l.product, l.message].map((x) => `"${(x ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+                    const a = document.createElement("a");
+                    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+                    a.download = "enquiries.csv";
+                    a.click();
+                  }}
+                  className="flex items-center gap-1 border border-stone-300 px-2.5 py-1.5 text-xs font-semibold"
+                >
+                  <Download size={13} /> CSV
+                </button>
+              </div>
+              <table className="w-full min-w-[640px] text-sm">
+                <thead><tr className="bg-stone-50 text-left text-xs uppercase text-stone-400">
+                  <th className="p-3">Date</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">Area</th><th className="p-3">Product</th><th className="p-3"></th>
+                </tr></thead>
+                <tbody>
+                  {leads.map((l) => (
+                    <tr key={l.id} className="border-t border-stone-100">
+                      <td className="p-3 text-xs">{new Date(l.created_at).toLocaleString("en-IN")}</td>
+                      <td className="p-3 font-semibold">{l.name}</td>
+                      <td className="p-3"><a className="font-semibold hover:underline" href={`tel:${l.phone}`}>{l.phone}</a></td>
+                      <td className="p-3">{l.area}</td>
+                      <td className="p-3">{l.product}</td>
+                      <td className="p-3"><button onClick={() => deleteLead(l.id)} aria-label="Delete"><Trash2 size={15} className="text-red-600" /></button></td>
+                    </tr>
+                  ))}
+                  {leads.length === 0 && <tr><td className="p-6 text-stone-400" colSpan={6}>No enquiries yet.</td></tr>}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {tab === "Products" && (
+            <div>
+              <button
+                onClick={() => { setEditing({ slug: `new-${Date.now()}`, name: "", category: "Ceiling Mount", size: "5 Ft", mrp: 0, price: 0, image: "/legacy/hero-1.png", blurb: "" }); setIsNew(true); }}
+                className="flex items-center gap-1.5 bg-ink px-4 py-2.5 text-sm font-bold text-white"
+              >
+                <Plus size={15} /> Add product
+              </button>
+              <div className="mt-3 border border-stone-200 bg-white">
+                {products.map((p) => (
+                  <div key={p.slug} className="flex items-center gap-3 border-b border-stone-100 p-3 text-sm last:border-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.image} alt="" className="h-10 w-10 bg-card object-contain" />
+                    <span className="min-w-0 flex-1"><strong>{p.name}</strong> <span className="text-stone-400">· ₹{p.price}</span></span>
+                    <button onClick={() => { setEditing({ ...p }); setIsNew(false); }} aria-label="Edit"><Pencil size={15} /></button>
+                    <button onClick={() => deleteProduct(p.slug)} aria-label="Delete"><Trash2 size={15} className="text-red-600" /></button>
+                  </div>
+                ))}
+              </div>
+              {editing && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
+                  <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto bg-white p-6">
+                    <p className="font-display text-3xl font-bold">{isNew ? "Add product." : "Edit product."}</p>
+                    <div className="mt-4 grid gap-3">
+                      <input className={inp} placeholder="Product name" value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} />
+                      <div className="grid grid-cols-2 gap-3">
+                        <input className={inp} placeholder="slug" value={editing.slug} disabled={!isNew} onChange={(e) => setEditing({ ...editing, slug: e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-") })} />
+                        <select className={inp} value={editing.category} onChange={(e) => setEditing({ ...editing, category: e.target.value as Product["category"] })}>
+                          <option>Open Terrace</option><option>Ceiling Mount</option><option>Wall Mount</option>
+                        </select>
+                      </div>
+                      <div className="grid grid-cols-3 gap-3">
+                        <input className={inp} placeholder="Size (5 Ft)" value={editing.size} onChange={(e) => setEditing({ ...editing, size: e.target.value })} />
+                        <input className={inp} type="number" placeholder="MRP" value={editing.mrp} onChange={(e) => setEditing({ ...editing, mrp: Number(e.target.value) })} />
+                        <input className={inp} type="number" placeholder="Price" value={editing.price} onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })} />
+                      </div>
+                      <input className={inp} placeholder="Image URL (/legacy/… or https://…webp)" value={editing.image} onChange={(e) => setEditing({ ...editing, image: e.target.value })} />
+                      <textarea className={inp} rows={3} placeholder="Short description" value={editing.blurb} onChange={(e) => setEditing({ ...editing, blurb: e.target.value })} />
+                    </div>
+                    <div className="mt-4 flex gap-2">
+                      <button onClick={saveProduct} className="flex-1 bg-ink py-2.5 text-sm font-bold text-white">Save</button>
+                      <button onClick={() => setEditing(null)} className="flex-1 border border-stone-300 py-2.5 text-sm font-semibold">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {tab === "Media" && (
+            <div className="border border-stone-200 bg-white p-5">
+              <p className="text-sm font-bold">Upload image — auto-converts to .webp</p>
+              <p className="mt-1 text-[13px] text-stone-500">Compressed to max 1600px / ~0.8MB before upload.</p>
+              <input type="file" accept="image/*" onChange={upload} className="mt-3 text-sm" />
+              {uploading && <p className="mt-2 text-sm">Compressing & uploading…</p>}
+              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+                {uploads.map((u) => (
+                  <div key={u} className="border border-stone-200">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={u} alt="upload" className="aspect-square w-full object-cover" />
+                    <p className="break-all p-1.5 text-[11px] text-stone-400">{u.slice(0, 60)}…</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {tab === "Settings" && (
+            <div className="grid max-w-lg gap-3 border border-stone-200 bg-white p-5">
+              {(["phone1", "phone2", "email", "hours"] as const).map((k) => (
+                <label key={k} className="grid gap-1 text-xs font-bold uppercase text-stone-400">{k}
+                  <input className={inp} value={settings[k]} onChange={(e) => setSettings({ ...settings, [k]: e.target.value })} />
+                </label>
+              ))}
+              <label className="grid gap-1 text-xs font-bold uppercase text-stone-400">address
+                <textarea className={inp} rows={2} value={settings.address} onChange={(e) => setSettings({ ...settings, address: e.target.value })} />
+              </label>
+              <button onClick={saveSettings} className="bg-ink py-2.5 text-sm font-bold text-white">Save settings</button>
             </div>
           )}
         </div>
-      )}
-
-      {tab === "Settings" && (
-        <div className="mt-6 rounded-2xl border border-stone-200 bg-white p-6 text-sm text-stone-600">
-          <p>Edit phone, address, hero slides, testimonials & SEO pages in Supabase tables:</p>
-          <ul className="mt-2 list-disc pl-5">
-            <li><code>site_settings</code> — phones, email, address, hours</li>
-            <li><code>hero_slides</code> — homepage banner (title, image, CTA)</li>
-            <li><code>testimonials</code>, <code>gallery</code>, <code>products</code>, <code>seo_pages</code></li>
-          </ul>
-          <p className="mt-3">Full SQL in <code>supabase/schema.sql</code>. Create a bucket named <code>site-images</code> (public).</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

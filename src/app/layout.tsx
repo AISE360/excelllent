@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { Barlow_Condensed, Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "./globals.css";
+
+const display = Barlow_Condensed({ weight: ["500", "600", "700"], subsets: ["latin"], variable: "--font-display" });
+const body = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.excellentdrysystem.com"),
@@ -16,11 +20,7 @@ export const metadata: Metadata = {
     "clothes drying stand", "cloth drying rack", "wall mounted clothes drying rack",
     "pulley operated cloth drying system", "ceiling mount clothes dryer", "clothes drying stand manufacturer pune",
   ],
-  openGraph: {
-    type: "website",
-    siteName: "Excellent Dry System",
-    images: ["/legacy/hero-1.png"],
-  },
+  openGraph: { type: "website", siteName: "Excellent Dry System" },
   robots: { index: true, follow: true },
 };
 
@@ -29,7 +29,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Excellent Dry System",
-    description: "Manufacturer of clothes drying stands & pulley systems in Pune.",
     telephone: "+91-9226848274",
     email: "excellentdry@gmail.com",
     address: {
@@ -40,11 +39,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       addressCountry: "IN",
     },
     priceRange: "₹₹",
-    openingHours: "Mo-Su 10:00-18:00",
   };
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={display.variable}>
+      <body className={body.className}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Navbar />
         <main className="min-h-[60vh]">{children}</main>

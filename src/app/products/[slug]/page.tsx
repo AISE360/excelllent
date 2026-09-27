@@ -26,42 +26,37 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
     "@context": "https://schema.org",
     "@type": "Product",
     name: p.name,
-    image: p.image,
     description: p.blurb,
     offers: { "@type": "Offer", priceCurrency: "INR", price: p.price, availability: "https://schema.org/InStock" },
   };
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
+    <div className="mx-auto max-w-6xl px-4 pt-4">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Link href="/products" className="text-sm font-semibold text-pine-700">← All products</Link>
+      <p className="text-[12px] text-stone-500">
+        <Link href="/" className="hover:underline">Home</Link> {" ＞ "}
+        <Link href="/products" className="hover:underline">Drying rack</Link> {" ＞ "} {p.name}
+      </p>
       <div className="mt-4 grid gap-10 lg:grid-cols-2">
-        <div>
+        <div className="relative bg-card p-10">
+          <span className="absolute left-3 top-3 bg-brand-yellow px-1.5 py-0.5 text-[11px] font-bold">New</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={p.image} alt={p.name} className="w-full rounded-3xl border border-stone-200 object-cover shadow-lg" />
-          <div className="mt-4 grid grid-cols-3 gap-3 text-center text-[13px]">
-            {[["Material", "304-grade steel"], ["Rope", "UV-grade nylon"], ["Warranty", "On-site service"]].map(([k, v]) => (
-              <div key={k} className="rounded-xl bg-white p-3 border border-stone-200">
-                <p className="font-bold text-pine-900">{k}</p><p className="text-stone-500">{v}</p>
-              </div>
-            ))}
-          </div>
+          <img src={p.image} alt={p.name} className="mx-auto aspect-square object-contain" />
         </div>
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-pine-600">{p.category} · {p.size}</p>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-pine-950 sm:text-4xl">{p.name}</h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-stone-600">{p.blurb} Designed for Indian homes — rust-proof pipes, smooth pulleys, wall-safe clamps, and clean drilling.</p>
-          <p className="mt-5 flex items-baseline gap-3">
-            <span className="text-4xl font-extrabold text-pine-800">{inr(p.price)}</span>
-            <span className="text-lg text-stone-400 line-through">{inr(p.mrp)}</span>
-            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">SAVE {inr(p.mrp - p.price)}</span>
+          <h1 className="font-display text-5xl font-bold leading-[0.95]">{p.name}</h1>
+          <p className="mt-2 text-[13px] text-stone-500">{p.category} · {p.size} · 304-grade steel</p>
+          <p className="mt-3 text-xl font-bold">
+            {inr(p.price)} <span className="text-sm font-normal text-stone-400 line-through">{inr(p.mrp)}</span>{" "}
+            <span className="bg-brand-yellow px-1.5 py-0.5 text-xs font-bold">SAVE {inr(p.mrp - p.price)}</span>
           </p>
-          <ul className="mt-5 space-y-2 text-sm text-stone-600">
-            <li>✓ Free site measurement guidance on call/WhatsApp</li>
+          <p className="mt-3 text-[14px] leading-relaxed text-stone-600">{p.blurb}</p>
+          <ul className="mt-4 space-y-1.5 text-sm text-stone-600">
+            <li>✓ Free measurement guidance on call/WhatsApp</li>
             <li>✓ Professional installation across Pune (60–90 min)</li>
             <li>✓ GST invoice · service support on call</li>
           </ul>
-          <div className="mt-7 rounded-3xl border border-stone-200 bg-white p-6">
-            <h2 className="text-lg font-extrabold text-pine-950">Order this product</h2>
+          <div className="mt-6 border border-stone-200 p-5">
+            <p className="font-display text-2xl font-bold">Order this product.</p>
             <div className="mt-3"><EnquiryForm product={p.name} /></div>
           </div>
         </div>
