@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { SITE } from "@/lib/site";
@@ -36,6 +36,7 @@ const NAV: { key: Key; href: string; children?: { key: Key; href: string }[] }[]
 export default function Navbar() {
   const [q, setQ] = useState("");
   const [mobile, setMobile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const t = useT();
@@ -52,8 +53,21 @@ export default function Navbar() {
     setMobile(false);
   }
 
+  useEffect(() => {
+    const f = () => setScrolled(window.scrollY > 24);
+    f();
+    window.addEventListener("scroll", f, { passive: true });
+    return () => window.removeEventListener("scroll", f);
+  }, []);
+
+  // transparent overlay menu on the homepage hero, solid bar everywhere else
+  const overlay = pathname === "/" && !scrolled && !mobile;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-ink/5 bg-white/85 backdrop-blur-xl">
+    <header className={overlay
+      ? "fixed inset-x-0 top-0 z-50 bg-gradient-to-b from-ink/60 to-transparent text-white"
+      : "sticky top-0 z-50 border-b border-ink/5 bg-white/85 backdrop-blur-xl"
+    }>
       {/* main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
         <button className="p-1 lg:hidden" onClick={() => setMobile(!mobile)} aria-label="Menu">
@@ -73,12 +87,15 @@ export default function Navbar() {
           <img src="/legacy/logo.png" alt="Excellent Dry" className="h-11 w-auto transition duration-300 hover:scale-[1.03]" />
         </Link>
         <form onSubmit={search} className="mx-auto hidden w-full max-w-md items-center md:flex">
-          <div className="flex w-full items-center rounded-full border border-stone-300/80 bg-stone-50/60 px-4 py-2 transition focus-within:border-ink focus-within:bg-white focus-within:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.25)]">
+          <div className={`flex w-full items-center rounded-full border px-4 py-2 transition ${overlay
+            ? "border-white/40 bg-white/10 focus-within:bg-white/20"
+            : "border-stone-300/80 bg-stone-50/60 focus-within:border-ink focus-within:bg-white focus-within:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.25)]"
+          }`}>
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t("search_ph")}
-              className="w-full bg-transparent text-sm outline-none placeholder:text-stone-400"
+              className={`w-full bg-transparent text-sm outline-none ${overlay ? "text-white placeholder:text-white/60" : "placeholder:text-stone-400"}`}
             />
             <button aria-label="Search"><Search size={17} /></button>
           </div>
@@ -100,7 +117,7 @@ export default function Navbar() {
       </div>
 
       {/* category nav */}
-      <nav className="hidden border-t border-stone-100 lg:block">
+      <nav className={`hidden lg:block ${overlay ? "border-t border-white/15" : "border-t border-stone-100"}`}>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
           <ul className="flex items-center gap-7">
             {NAV.map((n) => (

@@ -40,9 +40,8 @@ export default function Home() {
 
   return (
     <>
-      {/* FULLSCREEN HERO CARD */}
-      <div className="px-3 pt-3">
-        <section className="grain relative flex min-h-[90vh] items-end overflow-hidden rounded-[2rem] bg-ink text-white">
+      {/* FULLSCREEN HERO */}
+      <section className="grain relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/legacy/hero-1.png"
@@ -79,13 +78,12 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="floaty absolute right-8 top-8 z-[2] hidden w-44 rounded-2xl border border-white/20 bg-white/10 p-5 text-center backdrop-blur-xl md:block">
+          <div className="floaty absolute right-6 top-40 z-[2] hidden w-44 rounded-2xl border border-white/20 bg-white/10 p-5 text-center backdrop-blur-xl xl:block">
             <p className="font-display text-5xl font-bold text-white">4.8</p>
             <p className="mt-1 text-amber-300">★★★★★</p>
             <p className="mt-1 text-[11px] uppercase tracking-wider text-white/70">{t("rated_t")}</p>
           </div>
         </section>
-      </div>
 
       <DeliveryTicker />
 
