@@ -65,10 +65,7 @@ export default function Navbar() {
         </button>
         <Link href="/" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/legacy/logo.png" alt="Excellent Dry" className="h-9 w-auto" />
-          <span className="font-display text-[26px] font-bold leading-none tracking-tight">
-            excellent<span className="text-brand-red">dry</span>
-          </span>
+          <img src="/legacy/logo.png" alt="Excellent Dry" className="h-10 w-auto" />
         </Link>
         <form onSubmit={search} className="mx-auto hidden w-full max-w-md items-center md:flex">
           <div className="flex w-full items-center rounded-full border border-stone-300 px-4 py-2">
