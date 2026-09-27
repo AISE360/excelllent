@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChevronDown, Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
 import { useCart } from "@/lib/cart";
@@ -37,6 +37,7 @@ export default function Navbar() {
   const [q, setQ] = useState("");
   const [mobile, setMobile] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const t = useT();
   let count = 0;
   try {
@@ -58,7 +59,16 @@ export default function Navbar() {
         <button className="p-1 lg:hidden" onClick={() => setMobile(!mobile)} aria-label="Menu">
           {mobile ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <Link href="/" className="shrink-0">
+        <Link
+          href="/"
+          className="shrink-0"
+          onClick={(e) => {
+            if (pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/legacy/logo.png" alt="Excellent Dry" className="h-10 w-auto transition hover:opacity-90" />
         </Link>
