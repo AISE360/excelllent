@@ -43,7 +43,7 @@ export default function Home() {
     <>
       {/* SKANVI-STYLE SPLIT HERO */}
       <div className="mx-auto max-w-6xl px-4 pt-4">
-        <section className="grain grid overflow-hidden rounded-[2rem] border border-ink/10 bg-stone-100 md:grid-cols-2">
+        <section className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_24px_60px_-30px_rgb(0_0_0/0.25)] md:grid-cols-2">
           <div className="relative z-[2] flex flex-col justify-center p-8 md:p-12">
             <p className="rise rise-1 text-[11px] font-bold uppercase tracking-[0.24em] text-pine">
               {t("hero_eb")}
