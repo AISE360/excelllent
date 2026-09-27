@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { LayoutDashboard, Inbox, Package, Image as ImageIcon, Settings as SettingsIcon, LogOut, Plus, Pencil, Trash2, Download } from "lucide-react";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { toWebp } from "@/lib/image";
@@ -192,7 +193,9 @@ export default function AdminPage() {
 
   if (!authed) {
     return (
-      <div className="bg-card min-h-[70vh]">
+      <>
+        <AdminBar />
+        <div className="bg-card min-h-[70vh]">
         <div className="mx-auto max-w-md px-4 py-16">
           <p className="font-display text-4xl font-bold">Admin login.</p>
           <p className="mt-1 text-sm text-stone-500">
@@ -217,6 +220,7 @@ export default function AdminPage() {
           </form>
         </div>
       </div>
+      </>
     );
   }
 
@@ -231,7 +235,9 @@ export default function AdminPage() {
   const inp = "w-full border border-stone-300 bg-white px-3 py-2 text-sm outline-none focus:border-ink";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <>
+      <AdminBar />
+      <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="flex items-center justify-between">
         <div>
           <p className="font-display text-4xl font-bold">Dashboard.</p>
@@ -407,6 +413,22 @@ export default function AdminPage() {
             </div>
           )}
         </div>
+      </div>
+    </div>
+    </>
+  );
+}
+
+/** Slim admin-only bar — no storefront menu, footer or WhatsApp here. */
+function AdminBar() {
+  return (
+    <div className="border-b border-stone-200 bg-white">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <span className="font-display text-[22px] font-bold leading-none">
+          excellent<span className="text-brand-red">dry</span>
+          <span className="ml-2 bg-ink px-1.5 py-0.5 align-middle text-[11px] font-bold text-white">ADMIN</span>
+        </span>
+        <Link href="/" className="text-[13px] font-semibold hover:text-brand-red">← View website</Link>
       </div>
     </div>
   );
