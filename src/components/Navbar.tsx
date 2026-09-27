@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChevronDown, Globe, Menu, Search, ShoppingCart, User, X } from "lucide-react";
-import { SITE } from "@/lib/site";
 
 const NAV: { label: string; href: string; children?: { label: string; href: string }[] }[] = [
   {
@@ -43,21 +42,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-white">
-      {/* pale-blue utility strip */}
-      <div className="bg-topbar">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-1 text-[12px] text-ink">
-          <p className="font-medium">✓ Rated 4.8/5 by 80,000+ customers</p>
-          <nav className="hidden items-center gap-4 sm:flex">
-            <Link href="/about" className="hover:underline">About us</Link>
-            <Link href="/testimonials" className="hover:underline">Reviews</Link>
-            <Link href="/become-retailer" className="hover:underline">Retailer</Link>
-            <a href={`tel:${SITE.phone1.replace(/\s/g, "")}`} className="font-semibold hover:underline">
-              {SITE.phone1}
-            </a>
-          </nav>
-        </div>
-      </div>
-
       {/* main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
         <button className="p-1 lg:hidden" onClick={() => setMobile(!mobile)} aria-label="Menu">
