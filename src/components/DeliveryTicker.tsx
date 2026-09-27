@@ -9,8 +9,8 @@ export default function DeliveryTicker() {
   const t = useT();
   const areas = [...DELIVERY_AREAS, ...DELIVERY_AREAS];
   return (
-    <div className="flex items-stretch bg-ink text-white">
-      <span className="z-10 flex shrink-0 items-center gap-2 bg-brand-red px-4 py-2.5 text-[13px] font-bold uppercase tracking-wide">
+    <div className="flex items-stretch bg-pine-deep text-cream">
+      <span className="z-10 flex shrink-0 items-center gap-2 bg-brand-yellow px-4 py-2.5 text-[13px] font-bold uppercase tracking-wide text-ink">
         <MapPin size={15} /> {t("delivery_t")}
       </span>
       <div className="marquee marquee-mask relative flex-1 overflow-hidden">

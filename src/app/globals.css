@@ -7,8 +7,13 @@
   --color-brand-red: #e30613;
   --color-topbar: #cfe2ec;
   --color-card: #f1f1f1;
-  --color-ink: #16150f;
-  --color-cream: #faf8f2;
+  --color-ink: #232620;
+  --color-cream: #f5f0e6;
+  --color-cream-deep: #ece4d3;
+  --color-sage: #86a89e;
+  --color-sage-deep: #5f857b;
+  --color-pine: #33544d;
+  --color-pine-deep: #22382f;
   --color-pine-600: #e30613;
   --color-pine-700: #1d1d1b;
   --color-pine-800: #1d1d1b;
@@ -23,7 +28,7 @@ html {
 }
 
 body {
-  background: #fff;
+  background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -39,6 +44,11 @@ body {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 0.01em;
+}
+
+.font-serifed {
+  font-family: var(--font-accent);
+  letter-spacing: 0;
 }
 
 .font-accent {

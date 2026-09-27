@@ -8,6 +8,7 @@ import { type Key } from "@/lib/strings";
 import { useT } from "@/components/LanguageSwitcher";
 import Reveal from "@/components/Reveal";
 import DeliveryTicker from "@/components/DeliveryTicker";
+import WishHeart from "@/components/WishHeart";
 
 function Eyebrow({ no, children }: { no: string; children: React.ReactNode }) {
   return (
@@ -40,50 +41,64 @@ export default function Home() {
 
   return (
     <>
-      {/* FULLSCREEN HERO */}
-      <section className="grain relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/legacy/hero-1.png"
-            alt="Excellent Dry balcony drying system"
-            className="slow-zoom absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-ink/25" />
-
-          <div className="relative z-[2] w-full p-7 md:p-12">
-            <p className="rise rise-1 text-[13px] font-medium uppercase tracking-[0.24em] text-white/70">
+      {/* SKANVI-STYLE SPLIT HERO */}
+      <div className="mx-auto max-w-6xl px-4 pt-4">
+        <section className="grain grid overflow-hidden rounded-[2rem] border border-ink/10 bg-[#efe7d5] md:grid-cols-2">
+          <div className="relative z-[2] flex flex-col justify-center p-8 md:p-12">
+            <p className="rise rise-1 text-[11px] font-bold uppercase tracking-[0.24em] text-pine">
               {t("hero_eb")}
             </p>
-            <h1 className="rise rise-2 font-accent mt-2 max-w-4xl leading-[1.02]" style={{ fontSize: "clamp(2.8rem, 7vw, 6rem)" }}>
+            <h1 className="rise rise-2 font-serifed mt-3 leading-[1.04]" style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)" }}>
               {t("hero_l1")} {t("hero_l2")}
             </h1>
-            <p className="rise rise-3 mt-3 max-w-md text-[14px] leading-relaxed text-white/75">
+            <p className="rise rise-3 mt-4 max-w-md text-[14px] leading-relaxed text-stone-600">
               {t("hero_sub")}
             </p>
-            <div className="rise rise-3 mt-6 flex flex-wrap items-center gap-4">
+            <div className="rise rise-3 mt-6">
               <Link
                 href="/products"
-                className="btn-slide inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-ink shadow-2xl transition hover:bg-brand-yellow"
+                className="btn-slide inline-flex items-center gap-2 rounded-full bg-pine px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-pine-deep"
               >
                 {t("hero_cta")} <ArrowRight size={16} />
               </Link>
-              <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-                {BADGES.map((b) => (
-                  <span key={b.t} className="flex items-center gap-1.5 text-white/85">
-                    <span className="text-brand-yellow">{b.icon}</span>
-                    <span className="text-[12px] font-semibold">{b.t} {b.s}</span>
-                  </span>
-                ))}
-              </div>
+            </div>
+            <div className="rise rise-4 mt-7 flex max-w-md flex-wrap gap-x-5 gap-y-2 border-t border-ink/10 pt-4">
+              {BADGES.map((b) => (
+                <span key={b.t} className="flex items-center gap-1.5 text-ink/80">
+                  <span className="text-pine">{b.icon}</span>
+                  <span className="text-[12px] font-semibold">{b.t} {b.s}</span>
+                </span>
+              ))}
             </div>
           </div>
-
-          <div className="floaty absolute right-6 top-40 z-[2] hidden w-44 rounded-2xl border border-white/20 bg-white/10 p-5 text-center backdrop-blur-xl xl:block">
-            <p className="font-display text-5xl font-bold text-white">4.8</p>
-            <p className="mt-1 text-amber-300">★★★★★</p>
-            <p className="mt-1 text-[11px] uppercase tracking-wider text-white/70">{t("rated_t")}</p>
+          <div className="relative grid min-h-80 grid-cols-[1fr_110px] gap-3 p-4 md:p-5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/legacy/hero-1.png"
+              alt="Excellent Dry balcony drying system"
+              className="slow-zoom h-full min-h-72 w-full rounded-3xl object-cover md:min-h-[430px]"
+            />
+            <div className="hidden flex-col gap-3 sm:flex">
+              {[
+                { img: "/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg", label: "Ceiling" },
+                { img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg", label: "Wall" },
+                { img: "/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg", label: "Terrace" },
+              ].map((m) => (
+                <div key={m.label} className="relative flex-1 overflow-hidden rounded-2xl bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={m.img} alt={m.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                  <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold">{m.label}</span>
+                </div>
+              ))}
+            </div>
+            <div className="floaty absolute right-8 top-8 z-[2] rounded-2xl border border-ink/10 bg-white/85 px-4 py-3 text-center shadow-lg backdrop-blur">
+              <p className="font-serifed text-3xl">4.8</p>
+              <p className="text-amber-500">★★★★★</p>
+              <p className="mt-0.5 text-[10px] uppercase tracking-wider text-stone-500">{t("rated_t")}</p>
+            </div>
           </div>
         </section>
+      </div>
 
       <DeliveryTicker />
 
@@ -109,50 +124,40 @@ export default function Home() {
       </section>
 
       {/* categories */}
-      <section className="mx-auto max-w-6xl px-4 pt-16 md:pt-24">
-        <Reveal>
-          <Eyebrow no="01">Shop by space</Eyebrow>
-        </Reveal>
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="mx-auto max-w-6xl px-4 pt-12 md:pt-16">
+        <div className="mt-2 grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {CATS.map((c, i) => (
-            <Reveal key={c.t} delay={i * 90}>
-              <Link href={c.href} className="lift group relative block overflow-hidden rounded-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={c.img} alt={t(c.t)} className="h-72 w-full object-cover transition duration-700 group-hover:scale-105" />
-                <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                <span className="font-display absolute right-4 top-3 text-2xl font-bold text-white/40">0{i + 1}</span>
-                <span className="absolute inset-x-0 bottom-0 flex items-end justify-between p-5 text-white">
-                  <span>
-                    <span className="font-display block text-2xl font-bold leading-none">{t(c.t)}</span>
-                    <span className="mt-1 block text-[12px] text-white/75">{t(c.s)}</span>
-                  </span>
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-ink transition duration-300 group-hover:rotate-[-35deg] group-hover:bg-brand-yellow">
-                    <ArrowRight size={18} />
-                  </span>
+            <Reveal key={c.t} delay={i * 80}>
+              <Link href={c.href} className="group block text-center">
+                <span className="block overflow-hidden rounded-[1.75rem] bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.img} alt={t(c.t)} className="aspect-square w-full object-cover transition duration-700 group-hover:scale-105" />
                 </span>
+                <span className="font-serifed mt-3 block text-xl">{t(c.t)}</span>
+                <span className="mt-0.5 block text-[12px] text-stone-500">{t(c.s)}</span>
               </Link>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* bestsellers rail */}
-      <section className="mt-16 bg-cream/60 py-16 md:mt-24 md:py-24">
+      {/* featured on sage */}
+      <section className="mt-12 bg-sage py-14 md:mt-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <Eyebrow no="02">{t("pop_eb")}</Eyebrow>
-                <h2 className="font-display mt-2 leading-[0.9]" style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}>{t("best")}</h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">{t("pop_eb")}</p>
+                <h2 className="font-serifed mt-1 text-white" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)" }}>{t("best")}</h2>
               </div>
               <div className="flex items-center gap-2">
-                <Link href="/products" className="btn-slide mr-1 hidden items-center gap-1.5 text-sm font-bold sm:inline-flex">
+                <Link href="/products" className="btn-slide mr-1 hidden items-center gap-1.5 text-sm font-bold text-white sm:inline-flex">
                   {t("view_all")} <ArrowRight size={15} />
                 </Link>
-                <button onClick={() => rail(-1)} aria-label="Previous" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-white transition hover:bg-ink hover:text-white">
+                <button onClick={() => rail(-1)} aria-label="Previous" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white hover:text-ink">
                   <ChevronLeft size={18} />
                 </button>
-                <button onClick={() => rail(1)} aria-label="Next" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-white transition hover:bg-ink hover:text-white">
+                <button onClick={() => rail(1)} aria-label="Next" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white hover:text-ink">
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -161,11 +166,12 @@ export default function Home() {
           <Reveal delay={100}>
             <div ref={railRef} className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {PRODUCTS.slice(0, 8).map((p, i) => (
-                <Link key={p.slug} href={`/products/${p.slug}`} className="lift group w-[240px] shrink-0 snap-start overflow-hidden rounded-2xl border border-stone-200/70 bg-white md:w-[270px]">
-                  <div className="relative bg-card p-5">
-                    <span className="absolute left-3 top-3 z-10 rounded-full border border-ink/10 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">{t(TAGS[i])}</span>
+                <Link key={p.slug} href={`/products/${p.slug}`} className="group w-[240px] shrink-0 snap-start overflow-hidden rounded-3xl bg-cream transition duration-300 hover:-translate-y-1 hover:shadow-xl md:w-[270px]">
+                  <div className="relative bg-white p-5">
+                    <span className="absolute left-3 top-3 z-10 rounded-full border border-ink/10 bg-cream px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">{t(TAGS[i])}</span>
+                    <span className="absolute right-3 top-3 z-10"><WishHeart slug={p.slug} /></span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.image} alt={p.name} loading="lazy" className="mx-auto aspect-square object-contain transition duration-500 group-hover:scale-105" />
+                    <img src={p.image} alt={p.name} loading="lazy" className="mx-auto aspect-square rounded-2xl object-contain transition duration-500 group-hover:scale-105" />
                   </div>
                   <div className="p-4">
                     <p className="line-clamp-2 min-h-10 text-[14px] font-semibold leading-snug">{p.name}</p>
@@ -174,7 +180,7 @@ export default function Home() {
                         <span className="text-base font-extrabold text-ink">{inr(p.price)}</span>{" "}
                         <span className="line-through">{inr(p.mrp)}</span>
                       </p>
-                      <span className="rounded-full bg-green-700 px-3 py-1.5 text-[12px] font-bold text-white">+ {t("cart")}</span>
+                      <span className="rounded-full bg-pine px-3 py-1.5 text-[12px] font-bold text-white">+ {t("cart")}</span>
                     </div>
                   </div>
                 </Link>
@@ -311,7 +317,7 @@ export default function Home() {
           ))}
         </div>
         <Reveal>
-          <div className="grain relative mt-10 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-cyan via-brand-cyan-deep to-ink p-10 text-center text-white md:p-16">
+          <div className="grain relative mt-10 overflow-hidden rounded-[2rem] bg-pine p-10 text-center text-white md:p-16">
             <p className="font-display relative z-[2] leading-[0.9]" style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}>{t("cta_t")}</p>
             <div className="relative z-[2] mt-6 flex flex-wrap justify-center gap-3">
               <Link href="/contact" className="btn-slide inline-flex items-center gap-2 rounded-full bg-brand-yellow px-7 py-3.5 text-sm font-bold text-ink transition hover:brightness-95">
