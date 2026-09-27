@@ -43,13 +43,13 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
         <Link href="/products" className="hover:underline">Drying rack</Link> {" ＞ "} {p.name}
       </p>
       <div className="mt-4 grid gap-10 lg:grid-cols-2">
-        <div className="relative bg-card p-10">
-          <span className="absolute left-3 top-3 bg-brand-yellow px-1.5 py-0.5 text-[11px] font-bold">New</span>
+        <div className="lift relative overflow-hidden rounded-3xl bg-gradient-to-b from-card to-stone-200/60 p-10">
+          <span className="absolute left-4 top-4 z-10 rounded-full bg-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-yellow">New</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={p.image} alt={p.name} className="mx-auto aspect-square object-contain" />
         </div>
         <div>
-          <h1 className="font-display text-5xl font-bold leading-[0.95]">{p.name}</h1>
+          <h1 className="font-display leading-[0.9]" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>{p.name}</h1>
           <p className="mt-2 text-[13px] text-stone-500">{p.category} · {p.size} · 304-grade steel</p>
           <p className="mt-3 text-xl font-bold">
             {inr(p.price)} <span className="text-sm font-normal text-stone-400 line-through">{inr(p.mrp)}</span>{" "}
@@ -64,10 +64,10 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
                   key={s.slug}
                   href={`/products/${s.slug}`}
                   title={s.name}
-                  className={`border px-3.5 py-2 text-[13px] font-semibold transition ${
+                  className={`rounded-full border px-4 py-2 text-[13px] font-semibold transition ${
                     s.slug === p.slug
-                      ? "border-ink bg-ink text-white"
-                      : "border-stone-300 bg-white hover:border-ink"
+                      ? "border-ink bg-ink text-white shadow-lg"
+                      : "border-stone-300 bg-white hover:-translate-y-0.5 hover:border-ink"
                   }`}
                 >
                   {s.feet} Ft · {s.lines} Lines
@@ -83,12 +83,12 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
           </ul>
           <div className="mt-6 flex gap-2">
             <AddToCart slug={p.slug} />
-            <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="flex flex-1 items-center justify-center bg-brand-yellow py-3.5 text-sm font-bold text-ink transition hover:brightness-95">
+            <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="btn-slide flex flex-1 items-center justify-center rounded-full bg-brand-yellow py-3.5 text-sm font-bold text-ink transition hover:brightness-95">
               {t("d_ordernow")}
             </Link>
           </div>
-          <div className="mt-4 border border-stone-200 p-5">
-            <p className="font-display text-2xl font-bold">{t("d_order")}</p>
+          <div className="mt-4 rounded-3xl border border-ink/10 bg-cream/60 p-6">
+            <p className="font-display text-3xl font-bold">{t("d_order")}</p>
             <div className="mt-3"><EnquiryForm product={p.name} /></div>
           </div>
         </div>

@@ -48,7 +48,7 @@ function List() {
         {" ＞ "} {t("shop_title")} {cat ? `＞ ${cat}` : ""}
       </p>
 
-      <h1 className="font-display mt-1 text-5xl font-bold">{t("shop_title")}</h1>
+      <h1 className="font-display mt-1 leading-[0.9]" style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}>{t("shop_title")}</h1>
       <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-stone-500">
         {t("shop_desc")} {q && <>“<strong>{q}</strong>”</>}
       </p>
@@ -60,7 +60,7 @@ function List() {
             <p className="text-[13px] font-bold">{t("filter_cat")}</p>
             <ul className="mt-2 space-y-1.5 text-[13px] text-stone-600">
               <li>
-                <Link href="/products" className={!cat ? "font-bold text-ink" : "hover:text-ink"}>
+                <Link href="/products" className={!cat ? "inline-block rounded-full bg-ink px-3 py-1 font-bold text-white" : "hover:text-ink"}>
                   {t("filter_all")} ({PRODUCTS.length})
                 </Link>
               </li>
@@ -70,7 +70,7 @@ function List() {
                   <li key={c.cat}>
                     <Link
                       href={`/products?cat=${encodeURIComponent(c.cat)}`}
-                      className={cat === c.cat ? "font-bold text-ink" : "hover:text-ink"}
+                      className={cat === c.cat ? "inline-block rounded-full bg-ink px-3 py-1 font-bold text-white" : "hover:text-ink"}
                     >
                       {t(c.key)} ({n})
                     </Link>

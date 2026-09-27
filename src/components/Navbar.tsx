@@ -53,7 +53,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-[0_1px_0_rgb(0_0_0/0.06)]">
+    <header className="sticky top-0 z-50 border-b border-ink/5 bg-white/85 backdrop-blur-xl">
       {/* main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
         <button className="p-1 lg:hidden" onClick={() => setMobile(!mobile)} aria-label="Menu">
@@ -70,10 +70,10 @@ export default function Navbar() {
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/legacy/logo.png" alt="Excellent Dry" className="h-10 w-auto transition hover:opacity-90" />
+          <img src="/legacy/logo.png" alt="Excellent Dry" className="h-11 w-auto transition duration-300 hover:scale-[1.03]" />
         </Link>
         <form onSubmit={search} className="mx-auto hidden w-full max-w-md items-center md:flex">
-          <div className="flex w-full items-center rounded-full border border-stone-300 px-4 py-2 transition focus-within:border-ink">
+          <div className="flex w-full items-center rounded-full border border-stone-300/80 bg-stone-50/60 px-4 py-2 transition focus-within:border-ink focus-within:bg-white focus-within:shadow-[0_8px_24px_-12px_rgb(0_0_0/0.25)]">
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -105,14 +105,14 @@ export default function Navbar() {
           <ul className="flex items-center gap-7">
             {NAV.map((n) => (
               <li key={n.key} className="group relative py-2.5">
-                <Link href={n.href} className="flex items-center gap-1 text-[14px] transition hover:text-brand-red">
+                <Link href={n.href} className="u-link flex items-center gap-1 py-1 text-[14px] font-medium transition hover:text-brand-cyan-deep">
                   {t(n.key)}
                   {n.children && <ChevronDown size={13} />}
                 </Link>
                 {n.children && (
-                  <div className="invisible absolute left-0 top-full z-50 w-56 translate-y-1 border border-stone-200 bg-white py-2 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                  <div className="invisible absolute left-0 top-full z-50 w-60 translate-y-2 rounded-2xl border border-ink/5 bg-white/95 p-2 opacity-0 shadow-[0_24px_60px_-16px_rgb(0_0_0/0.3)] backdrop-blur-xl transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                     {n.children.map((c) => (
-                      <Link key={c.key} href={c.href} className="block px-4 py-2 text-sm hover:bg-stone-100">
+                      <Link key={c.key} href={c.href} className="block rounded-xl px-4 py-2.5 text-sm transition hover:bg-ink hover:text-white">
                         {t(c.key)}
                       </Link>
                     ))}
