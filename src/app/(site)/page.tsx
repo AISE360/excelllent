@@ -43,7 +43,7 @@ export default function Home() {
     <>
       {/* SKANVI-STYLE SPLIT HERO */}
       <div className="mx-auto max-w-6xl px-4 pt-4">
-        <section className="grain grid overflow-hidden rounded-[2rem] border border-ink/10 bg-[#efe7d5] md:grid-cols-2">
+        <section className="grain grid overflow-hidden rounded-[2rem] border border-ink/10 bg-stone-100 md:grid-cols-2">
           <div className="relative z-[2] flex flex-col justify-center p-8 md:p-12">
             <p className="rise rise-1 text-[11px] font-bold uppercase tracking-[0.24em] text-pine">
               {t("hero_eb")}
@@ -141,23 +141,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* featured on sage */}
-      <section className="mt-12 bg-sage py-14 md:mt-16 md:py-20">
+      {/* featured */}
+      <section className="mt-12 border-y border-ink/10 bg-white py-14 md:mt-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">{t("pop_eb")}</p>
-                <h2 className="font-serifed mt-1 text-white" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)" }}>{t("best")}</h2>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-stone-500">{t("pop_eb")}</p>
+                <h2 className="font-serifed mt-1 text-ink" style={{ fontSize: "clamp(2.4rem, 5vw, 4rem)" }}>{t("best")}</h2>
               </div>
               <div className="flex items-center gap-2">
-                <Link href="/products" className="btn-slide mr-1 hidden items-center gap-1.5 text-sm font-bold text-white sm:inline-flex">
+                <Link href="/products" className="btn-slide mr-1 hidden items-center gap-1.5 text-sm font-bold text-ink sm:inline-flex">
                   {t("view_all")} <ArrowRight size={15} />
                 </Link>
-                <button onClick={() => rail(-1)} aria-label="Previous" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white hover:text-ink">
+                <button onClick={() => rail(-1)} aria-label="Previous" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 transition hover:bg-ink hover:text-white">
                   <ChevronLeft size={18} />
                 </button>
-                <button onClick={() => rail(1)} aria-label="Next" className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white hover:text-ink">
+                <button onClick={() => rail(1)} aria-label="Next" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 transition hover:bg-ink hover:text-white">
                   <ChevronRight size={18} />
                 </button>
               </div>
@@ -166,8 +166,8 @@ export default function Home() {
           <Reveal delay={100}>
             <div ref={railRef} className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {PRODUCTS.slice(0, 8).map((p, i) => (
-                <Link key={p.slug} href={`/products/${p.slug}`} className="group w-[240px] shrink-0 snap-start overflow-hidden rounded-3xl bg-cream transition duration-300 hover:-translate-y-1 hover:shadow-xl md:w-[270px]">
-                  <div className="relative bg-white p-5">
+                <Link key={p.slug} href={`/products/${p.slug}`} className="group w-[240px] shrink-0 snap-start overflow-hidden rounded-3xl border border-ink/10 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl md:w-[270px]">
+                  <div className="relative bg-stone-100 p-5">
                     <span className="absolute left-3 top-3 z-10 rounded-full border border-ink/10 bg-cream px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">{t(TAGS[i])}</span>
                     <span className="absolute right-3 top-3 z-10"><WishHeart slug={p.slug} /></span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}

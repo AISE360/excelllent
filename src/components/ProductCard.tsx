@@ -24,7 +24,7 @@ export default function ProductCard({ p, badge = "New" }: { p: Product; badge?: 
   return (
     <div className="group overflow-hidden rounded-3xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <Link href={`/products/${p.slug}`} className="block">
-        <div className="relative bg-cream p-5">
+        <div className="relative bg-stone-100 p-5">
           {badge && (
             <span className="absolute left-3 top-3 z-10 rounded-full border border-ink/10 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">{badge}</span>
           )}

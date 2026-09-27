@@ -59,7 +59,7 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ink/10 bg-cream/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-white/90 backdrop-blur-xl">
       {/* main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
         <button className="p-1 lg:hidden" onClick={() => setMobile(!mobile)} aria-label="Menu">
@@ -139,7 +139,7 @@ export default function Navbar() {
 
       {/* mobile menu */}
       {mobile && (
-        <div className="border-t border-ink/10 bg-cream px-4 pb-5 lg:hidden">
+        <div className="border-t border-ink/10 bg-white px-4 pb-5 lg:hidden">
           <form onSubmit={search} className="mt-3 flex items-center rounded-full border border-ink/15 bg-white px-4 py-2.5">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("search_ph")}
               className="w-full bg-transparent text-sm outline-none" />

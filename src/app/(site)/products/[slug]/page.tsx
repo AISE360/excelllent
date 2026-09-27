@@ -87,7 +87,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
               {t("d_ordernow")}
             </Link>
           </div>
-          <div className="mt-4 rounded-3xl border border-ink/10 bg-cream/60 p-6">
+          <div className="mt-4 rounded-3xl border border-ink/10 bg-stone-50 p-6">
             <p className="font-display text-3xl font-bold">{t("d_order")}</p>
             <div className="mt-3"><EnquiryForm product={p.name} /></div>
           </div>

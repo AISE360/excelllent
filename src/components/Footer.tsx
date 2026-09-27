@@ -8,7 +8,7 @@ export default async function Footer() {
   const lang = await getLang();
   const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
-    <footer className="mt-20 border-t border-ink/10 bg-[#efe7d5]">
+    <footer className="mt-20 border-t border-ink/10 bg-white">
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-14">
         <div className="flex flex-wrap items-end justify-between gap-6 border-b border-ink/10 pb-10">
           <div>
