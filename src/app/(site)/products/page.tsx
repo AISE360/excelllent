@@ -1,21 +1,33 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { PRODUCTS } from "@/lib/site";
+import { useT } from "@/components/LanguageSwitcher";
 
-export const metadata: Metadata = {
-  title: "Drying Rack & Systems",
-  description: "Open terrace pulley systems, ceiling mount dryers & foldable wall stands with installation in Pune.",
-};
+const CATS = [
+  { key: "filter_pulley" as const, cat: "Open Terrace" },
+  { key: "filter_ceiling" as const, cat: "Ceiling Mount" },
+  { key: "filter_wall" as const, cat: "Wall Mount" },
+];
 
-const CATS = ["Open Terrace", "Ceiling Mount", "Wall Mount"] as const;
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<p className="mx-auto max-w-6xl px-4 py-20 text-sm text-stone-400">Loading...</p>}>
+      <List />
+    </Suspense>
+  );
+}
 
-export default async function ProductsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ cat?: string; q?: string; sort?: string }>;
-}) {
-  const { cat, q, sort } = await searchParams;
+function List() {
+  const t = useT();
+  const sp = useSearchParams();
+  const cat = sp.get("cat") || undefined;
+  const q = sp.get("q") || undefined;
+  const sort = sp.get("sort") || undefined;
+
   let list = [...PRODUCTS];
   if (cat) list = list.filter((p) => p.category === cat);
   if (q) {
@@ -25,41 +37,42 @@ export default async function ProductsPage({
   if (sort === "low") list.sort((a, b) => a.price - b.price);
   if (sort === "high") list.sort((a, b) => b.price - a.price);
 
-  const here = (c: string) => `/products?cat=${encodeURIComponent(c)}`;
+  const keep = new URLSearchParams({ ...(cat ? { cat } : {}), ...(q ? { q } : {}) });
+  const sortHref = (s?: string) =>
+    `/products?${new URLSearchParams({ ...Object.fromEntries(keep), ...(s ? { sort: s } : {}) })}`;
 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-4">
-      {/* breadcrumb */}
       <p className="text-[12px] text-stone-500">
-        <Link href="/" className="hover:underline">Home</Link>
-        {" ＞ "} Drying Systems {cat ? `＞ ${cat}` : ""}
+        <Link href="/" className="hover:underline">{t("home")}</Link>
+        {" ＞ "} {t("shop_title")} {cat ? `＞ ${cat}` : ""}
       </p>
 
-      <h1 className="font-display mt-1 text-5xl font-bold">Drying rack</h1>
+      <h1 className="font-display mt-1 text-5xl font-bold">{t("shop_title")}</h1>
       <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-stone-500">
-        Clothes horses to fall in love with. Dry without a dryer on a pulley-operated
-        Excellent Dry system instead. Stable, easy to use, and available for terrace,
-        ceiling and wall. {q && <>Results for “<strong>{q}</strong>”.</>}
+        {t("shop_desc")} {q && <>“<strong>{q}</strong>”</>}
       </p>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[220px_1fr]">
-        {/* FILTER SIDEBAR */}
         <aside>
-          <p className="text-sm font-bold">Filter Results</p>
+          <p className="text-sm font-bold">{t("filter_t")}</p>
           <div className="mt-3 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">Categories</p>
+            <p className="text-[13px] font-bold">{t("filter_cat")}</p>
             <ul className="mt-2 space-y-1.5 text-[13px] text-stone-600">
               <li>
                 <Link href="/products" className={!cat ? "font-bold text-ink" : "hover:text-ink"}>
-                  All systems ({PRODUCTS.length})
+                  {t("filter_all")} ({PRODUCTS.length})
                 </Link>
               </li>
               {CATS.map((c) => {
-                const n = PRODUCTS.filter((p) => p.category === c).length;
+                const n = PRODUCTS.filter((p) => p.category === c.cat).length;
                 return (
-                  <li key={c}>
-                    <Link href={here(c)} className={cat === c ? "font-bold text-ink" : "hover:text-ink"}>
-                      {c === "Open Terrace" ? "Pulley drying system" : c === "Ceiling Mount" ? "Ceiling drying rack" : "Wall mounted dryer"} ({n})
+                  <li key={c.cat}>
+                    <Link
+                      href={`/products?cat=${encodeURIComponent(c.cat)}`}
+                      className={cat === c.cat ? "font-bold text-ink" : "hover:text-ink"}
+                    >
+                      {t(c.key)} ({n})
                     </Link>
                   </li>
                 );
@@ -67,7 +80,7 @@ export default async function ProductsPage({
             </ul>
           </div>
           <div className="mt-4 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">Size</p>
+            <p className="text-[13px] font-bold">{t("filter_size")}</p>
             <ul className="mt-2 space-y-1.5 text-[13px] text-stone-600">
               {["3 Ft", "4 Ft", "5 Ft", "6 Ft"].map((s) => {
                 const n = PRODUCTS.filter((p) => p.size === s).length;
@@ -76,7 +89,7 @@ export default async function ProductsPage({
             </ul>
           </div>
           <div className="mt-4 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">Colour</p>
+            <p className="text-[13px] font-bold">{t("filter_colour")}</p>
             <div className="mt-2 flex gap-3 text-[12px] text-stone-600">
               <span className="flex items-center gap-1"><i className="inline-block h-4 w-4 bg-ink" /> Steel</span>
               <span className="flex items-center gap-1"><i className="inline-block h-4 w-4 bg-stone-400" /> Grey</span>
@@ -85,23 +98,21 @@ export default async function ProductsPage({
           </div>
         </aside>
 
-        {/* GRID */}
         <div>
           <div className="flex items-center justify-between text-[13px]">
-            <p className="text-stone-500">{list.length} products</p>
+            <p className="text-stone-500">{list.length} {t("products_n")}</p>
             <p className="flex items-center gap-2">
-              Sort By
+              {t("sort_by")}
               <span className="flex gap-2 font-semibold">
-                <Link href={`/products?${new URLSearchParams({ ...(cat ? { cat } : {}), ...(q ? { q } : {}) })}`} className={!sort ? "underline" : ""}>Recommended</Link>
-                <Link href={`/products?${new URLSearchParams({ ...(cat ? { cat } : {}), ...(q ? { q } : {}), sort: "low" })}`} className={sort === "low" ? "underline" : ""}>Price ↑</Link>
-                <Link href={`/products?${new URLSearchParams({ ...(cat ? { cat } : {}), ...(q ? { q } : {}), sort: "high" })}`} className={sort === "high" ? "underline" : ""}>Price ↓</Link>
+                <Link href={sortHref()} className={!sort ? "underline" : ""}>{t("sort_rec")}</Link>
+                <Link href={sortHref("low")} className={sort === "low" ? "underline" : ""}>{t("sort_low")}</Link>
+                <Link href={sortHref("high")} className={sort === "high" ? "underline" : ""}>{t("sort_high")}</Link>
               </span>
             </p>
           </div>
           {list.length === 0 ? (
             <p className="mt-10 border border-stone-200 bg-stone-50 p-8 text-center text-sm text-stone-500">
-              No products match. <Link href="/products" className="font-semibold text-ink underline">View all</Link> or{" "}
-              <Link href="/contact" className="font-semibold text-ink underline">ask us on WhatsApp</Link>.
+              <Link href="/products" className="font-semibold text-ink underline">{t("filter_all")}</Link>
             </p>
           ) : (
             <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-8 xl:grid-cols-3">

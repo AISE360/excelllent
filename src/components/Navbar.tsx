@@ -3,38 +3,41 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ChevronDown, Globe, Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, Search, ShoppingCart, User, X } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { SITE } from "@/lib/site";
+import { type Key } from "@/lib/strings";
+import LanguageSwitcher, { useT } from "@/components/LanguageSwitcher";
 
-const NAV: { label: string; href: string; children?: { label: string; href: string }[] }[] = [
+const NAV: { key: Key; href: string; children?: { key: Key; href: string }[] }[] = [
   {
-    label: "Pulley Systems",
+    key: "nav_pulley",
     href: "/products?cat=Open Terrace",
     children: [
-      { label: "Open Terrace System", href: "/products?cat=Open Terrace" },
-      { label: "Ceiling Mount System", href: "/products?cat=Ceiling Mount" },
-      { label: "All Drying Systems", href: "/products" },
+      { key: "nav_open", href: "/products?cat=Open Terrace" },
+      { key: "nav_ceiling", href: "/products?cat=Ceiling Mount" },
+      { key: "nav_all", href: "/products" },
     ],
   },
   {
-    label: "Wall Mount & Stands",
+    key: "nav_wall",
     href: "/products?cat=Wall Mount",
     children: [
-      { label: "Foldable Wall Stand", href: "/products?cat=Wall Mount" },
-      { label: "All Drying Systems", href: "/products" },
+      { key: "nav_fold", href: "/products?cat=Wall Mount" },
+      { key: "nav_all", href: "/products" },
     ],
   },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Reviews", href: "/testimonials" },
-  { label: "Become a Retailer", href: "/become-retailer" },
-  { label: "Contact", href: "/contact" },
+  { key: "nav_gallery", href: "/gallery" },
+  { key: "nav_reviews", href: "/testimonials" },
+  { key: "nav_retailer", href: "/become-retailer" },
+  { key: "nav_contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const [q, setQ] = useState("");
   const [mobile, setMobile] = useState(false);
   const router = useRouter();
+  const t = useT();
   let count = 0;
   try {
     count = useCart().count;
@@ -64,7 +67,7 @@ export default function Navbar() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Find a product..."
+              placeholder={t("search_ph")}
               className="w-full bg-transparent text-sm outline-none placeholder:text-stone-400"
             />
             <button aria-label="Search"><Search size={17} /></button>
@@ -72,17 +75,17 @@ export default function Navbar() {
         </form>
         <div className="ml-auto flex items-center gap-4 text-[13px] font-medium md:ml-0">
           <Link href="/admin" className="flex items-center gap-1.5 hover:text-brand-red">
-            <User size={19} /><span className="hidden sm:inline">Account</span>
+            <User size={19} /><span className="hidden sm:inline">{t("account")}</span>
           </Link>
           <Link href="/cart" className="relative flex items-center gap-1.5 hover:text-brand-red">
-            <ShoppingCart size={19} /><span className="hidden sm:inline">Cart</span>
+            <ShoppingCart size={19} /><span className="hidden sm:inline">{t("cart")}</span>
             {count > 0 && (
               <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-red px-1 text-[10px] font-bold text-white">
                 {count}
               </span>
             )}
           </Link>
-          <span className="hidden items-center gap-1 sm:flex"><Globe size={18} /> EN <ChevronDown size={12} /></span>
+          <LanguageSwitcher />
         </div>
       </div>
 
@@ -91,16 +94,16 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
           <ul className="flex items-center gap-7">
             {NAV.map((n) => (
-              <li key={n.label} className="group relative py-2.5">
+              <li key={n.key} className="group relative py-2.5">
                 <Link href={n.href} className="flex items-center gap-1 text-[14px] transition hover:text-brand-red">
-                  {n.label}
+                  {t(n.key)}
                   {n.children && <ChevronDown size={13} />}
                 </Link>
                 {n.children && (
                   <div className="invisible absolute left-0 top-full z-50 w-56 translate-y-1 border border-stone-200 bg-white py-2 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                     {n.children.map((c) => (
-                      <Link key={c.label} href={c.href} className="block px-4 py-2 text-sm hover:bg-stone-100">
-                        {c.label}
+                      <Link key={c.key} href={c.href} className="block px-4 py-2 text-sm hover:bg-stone-100">
+                        {t(c.key)}
                       </Link>
                     ))}
                   </div>
@@ -112,7 +115,7 @@ export default function Navbar() {
             href={`tel:${SITE.phone1.replace(/\s/g, "")}`}
             className="my-1.5 flex items-center gap-1.5 rounded-md bg-brand-yellow px-4 py-2 text-[13px] font-bold transition hover:brightness-95"
           >
-            <Phone size={14} /> Call Now: {SITE.phone1.replace("+91 ", "")}
+            <Phone size={14} /> {t("call_now")}: {SITE.phone1.replace("+91 ", "")}
           </a>
         </div>
       </nav>
@@ -121,19 +124,19 @@ export default function Navbar() {
       {mobile && (
         <div className="border-t border-stone-200 bg-white px-4 pb-5 lg:hidden">
           <form onSubmit={search} className="mt-3 flex items-center rounded-full border border-stone-300 px-4 py-2.5">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Find a product..."
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("search_ph")}
               className="w-full bg-transparent text-sm outline-none" />
             <button aria-label="Search"><Search size={17} /></button>
           </form>
           {NAV.map((n) => (
-            <Link key={n.label} href={n.href} onClick={() => setMobile(false)}
+            <Link key={n.key} href={n.href} onClick={() => setMobile(false)}
               className="block border-b border-stone-100 py-3 text-[15px] font-medium">
-              {n.label}
+              {t(n.key)}
             </Link>
           ))}
           <a href={`tel:${SITE.phone1.replace(/\s/g, "")}`}
             className="mt-3 flex items-center justify-center gap-1.5 rounded-md bg-brand-yellow px-4 py-3 text-sm font-bold">
-            <Phone size={15} /> Call Now: {SITE.phone1}
+            <Phone size={15} /> {t("call_now")}: {SITE.phone1}
           </a>
         </div>
       )}

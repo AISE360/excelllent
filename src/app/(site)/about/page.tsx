@@ -1,10 +1,15 @@
 export const metadata = { title: "About: Manufacturer Since 2014" };
 
-export default function AboutPage() {
+import { getLang } from "@/lib/i18n";
+import { tr } from "@/lib/strings";
+
+export default async function AboutPage() {
+  const lang = await getLang();
+  const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
     <div className="mx-auto max-w-6xl px-4 pt-4">
       <p className="text-[12px] text-stone-500">Home ＞ About us</p>
-      <h1 className="font-display mt-1 max-w-2xl text-5xl font-bold leading-[0.95]">Pune&apos;s own drying-system maker.</h1>
+      <h1 className="font-display mt-1 max-w-2xl text-5xl font-bold leading-[0.95]">{t("about_t")}</h1>
       <div className="mt-6 grid gap-8 md:grid-cols-2">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/legacy/hero-2.png" alt="Excellent Dry systems" className="w-full object-cover" />

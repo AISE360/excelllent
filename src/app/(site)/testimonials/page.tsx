@@ -1,13 +1,17 @@
 import Link from "next/link";
+import { getLang } from "@/lib/i18n";
+import { tr } from "@/lib/strings";
 import { TESTIMONIALS } from "@/lib/site";
 
 export const metadata = { title: "Customer Reviews" };
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const lang = await getLang();
+  const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
     <div className="mx-auto max-w-6xl px-4 pt-4">
       <p className="text-[12px] text-stone-500">Home ＞ Reviews</p>
-      <h1 className="font-display mt-1 text-5xl font-bold">Rated 4.8/5.</h1>
+      <h1 className="font-display mt-1 text-5xl font-bold">{t("testi_t")}</h1>
       <div className="mt-6 grid gap-4 md:grid-cols-3">
         {TESTIMONIALS.map((t) => (
           <figure key={t.name} className="border border-stone-200 p-5">

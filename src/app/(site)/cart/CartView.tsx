@@ -4,17 +4,19 @@ import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { SITE, inr } from "@/lib/site";
+import { useT } from "@/components/LanguageSwitcher";
 
 export default function CartView() {
   const { detailed, subtotal, mrpTotal, setQty, remove } = useCart();
+  const t = useT();
 
   if (detailed.length === 0) {
     return (
       <div className="border border-stone-200 bg-white p-10 text-center">
-        <p className="font-display text-3xl font-bold">Cart is empty.</p>
-        <p className="mt-1 text-sm text-stone-500">Add a drying system to get started.</p>
+        <p className="font-display text-3xl font-bold">{t("cart_empty_t")}</p>
+        <p className="mt-1 text-sm text-stone-500">{t("cart_empty_s")}</p>
         <Link href="/products" className="mt-5 inline-block bg-ink px-6 py-2.5 text-sm font-bold text-white">
-          Browse products →
+          {t("cart_browse")} →
         </Link>
       </div>
     );
@@ -51,11 +53,11 @@ export default function CartView() {
         ))}
       </div>
       <div className="mt-4 flex items-center justify-between bg-ink p-4 text-white">
-        <span className="text-sm">Subtotal (you save {inr(mrpTotal - subtotal)})</span>
+        <span className="text-sm">{t("cart_subtotal")} ({t("cart_save")} {inr(mrpTotal - subtotal)})</span>
         <span className="font-display text-3xl font-bold">{inr(subtotal)}</span>
       </div>
       <a href={wa} target="_blank" className="mt-3 block bg-[#25D366] p-3.5 text-center text-sm font-bold text-white">
-        Order instantly on WhatsApp →
+        {t("cart_wa")} →
       </a>
     </div>
   );

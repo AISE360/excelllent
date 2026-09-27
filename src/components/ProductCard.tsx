@@ -5,9 +5,11 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { inr, type Product } from "@/lib/site";
+import { useT } from "@/components/LanguageSwitcher";
 
 export default function ProductCard({ p, badge = "New" }: { p: Product; badge?: string }) {
   const { add } = useCart();
+  const t = useT();
   const [added, setAdded] = useState(false);
 
   function onAdd(e: React.MouseEvent) {
@@ -44,7 +46,7 @@ export default function ProductCard({ p, badge = "New" }: { p: Product; badge?: 
         onClick={onAdd}
         className={`mx-3 mb-3 flex w-[calc(100%-1.5rem)] items-center justify-center gap-1.5 py-2 text-[13px] font-bold transition ${added ? "bg-green-600 text-white" : "bg-ink text-white hover:bg-brand-red"}`}
       >
-        {added ? <><Check size={14} /> Added ✓</> : "Add to Cart"}
+        {added ? <><Check size={14} /> {t("card_added")} ✓</> : t("card_add")}
       </button>
     </div>
   );
