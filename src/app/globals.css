@@ -83,6 +83,9 @@ body {
 .marquee-track {
   animation: marquee-rtl 30s linear infinite;
 }
+.marquee-fast {
+  animation-duration: 16s;
+}
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }

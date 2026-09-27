@@ -131,15 +131,15 @@ export default function Home() {
         </Reveal>
         <Reveal delay={120}>
           <div className="marquee marquee-mask mt-6 overflow-hidden">
-            <div className="marquee-track flex w-max items-center gap-10 pr-10">
-              {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((n, i) => (
+            <div className="marquee-track marquee-fast flex w-max items-center gap-6 pr-6">
+              {[3, 1, 4, 1, 5, 2, 5, 3, 2, 4, 3, 1, 4, 1, 5, 2, 5, 3, 2, 4].map((n, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   key={i}
                   src={`/legacy/clients/client${n}.jpg`}
                   alt={`Corporate client ${n}`}
                   loading="lazy"
-                  className="h-20 w-auto shrink-0 bg-white object-contain px-4 transition hover:scale-105"
+                  className="h-24 w-auto shrink-0 bg-white object-contain px-3 transition hover:scale-105"
                 />
               ))}
             </div>
