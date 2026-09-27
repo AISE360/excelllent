@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Home as HomeIcon, ShieldCheck, Star, Wrench } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Home as HomeIcon, ShieldCheck, Star, Wrench } from "lucide-react";
+import { useRef } from "react";
 import { inr, DEMO_VIDEO_ID, PRODUCTS, TESTIMONIALS } from "@/lib/site";
 import { type Key } from "@/lib/strings";
 import { useT } from "@/components/LanguageSwitcher";
@@ -25,6 +26,11 @@ export default function Home() {
     { t: "cat_wall", s: "cat_wall_s", img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg", href: "/products?cat=Wall Mount" },
     { t: "cat_all", s: "cat_all_s", img: "/legacy/hero-2.png", href: "/products" },
   ];
+  const railRef = useRef<HTMLDivElement>(null);
+  function rail(dir: number) {
+    railRef.current?.scrollBy({ left: dir * 300, behavior: "smooth" });
+  }
+  const TAGS = ["tag_best", "tag_fav", "tag_best", "tag_fav", "tag_best", "tag_fav", "tag_best", "tag_fav"] as const;
   const BADGES = [
     { icon: <Star size={18} />, t: t("b1t"), s: t("b1s") },
     { icon: <HomeIcon size={18} />, t: t("b2t"), s: t("b2s") },
@@ -34,54 +40,52 @@ export default function Home() {
 
   return (
     <>
-      {/* EDITORIAL HERO */}
-      <section className="grain relative flex min-h-[93vh] items-end overflow-hidden bg-ink text-white">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/legacy/hero-1.png"
-          alt="Excellent Dry balcony drying system"
-          className="slow-zoom absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/15 to-ink/30" />
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-ink/50 to-transparent" />
+      {/* FULLSCREEN HERO CARD */}
+      <div className="px-3 pt-3">
+        <section className="grain relative flex min-h-[90vh] items-end overflow-hidden rounded-[2rem] bg-ink text-white">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/legacy/hero-1.png"
+            alt="Excellent Dry balcony drying system"
+            className="slow-zoom absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-ink/25" />
 
-        <div className="relative z-[2] mx-auto w-full max-w-6xl px-4 pb-12 pt-40 md:pb-16">
-          <p className="rise rise-1 flex items-center gap-3 text-[12px] font-bold uppercase tracking-[0.28em] text-white/80">
-            <span className="inline-block h-[3px] w-10 bg-brand-yellow" /> {t("hero_eb")}
-          </p>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
-            <h1 className="rise rise-2 font-display leading-[0.86] tracking-tight" style={{ fontSize: "clamp(3.8rem, 10vw, 9rem)" }}>
-              {t("hero_l1")}
-              <br />
-              {t("hero_l2")}
+          <div className="relative z-[2] w-full p-7 md:p-12">
+            <p className="rise rise-1 text-[13px] font-medium uppercase tracking-[0.24em] text-white/70">
+              {t("hero_eb")}
+            </p>
+            <h1 className="rise rise-2 font-accent mt-2 max-w-4xl leading-[1.02]" style={{ fontSize: "clamp(2.8rem, 7vw, 6rem)" }}>
+              {t("hero_l1")} {t("hero_l2")}
             </h1>
-            <div className="rise rise-3 pb-2">
+            <p className="rise rise-3 mt-3 max-w-md text-[14px] leading-relaxed text-white/75">
+              {t("hero_sub")}
+            </p>
+            <div className="rise rise-3 mt-6 flex flex-wrap items-center gap-4">
               <Link
                 href="/products"
                 className="btn-slide inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-ink shadow-2xl transition hover:bg-brand-yellow"
               >
                 {t("hero_cta")} <ArrowRight size={16} />
               </Link>
+              <div className="flex flex-wrap gap-x-5 gap-y-1.5">
+                {BADGES.map((b) => (
+                  <span key={b.t} className="flex items-center gap-1.5 text-white/85">
+                    <span className="text-brand-yellow">{b.icon}</span>
+                    <span className="text-[12px] font-semibold">{b.t} {b.s}</span>
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-          <p className="rise rise-3 mt-4 max-w-md text-[14px] leading-relaxed text-white/75">
-            {t("hero_sub")}
-          </p>
-          <div className="rise rise-4 mt-6 flex max-w-3xl flex-wrap gap-x-6 gap-y-2 border-t border-white/15 pt-4">
-            {BADGES.map((b) => (
-              <span key={b.t} className="flex items-center gap-2 text-white/85">
-                <span className="text-brand-yellow">{b.icon}</span>
-                <span className="text-[12px] font-semibold">{b.t} {b.s}</span>
-              </span>
-            ))}
-          </div>
-        </div>
 
-        <div className="floaty absolute right-6 top-24 z-[2] hidden rounded-2xl border border-white/15 bg-white/10 px-5 py-4 backdrop-blur-xl xl:block">
-          <p className="font-display text-4xl font-bold text-brand-yellow">4.8 ★</p>
-          <p className="text-[11px] uppercase tracking-wider text-white/70">80,000+ reviews</p>
-        </div>
-      </section>
+          <div className="floaty absolute right-8 top-8 z-[2] hidden w-44 rounded-2xl border border-white/20 bg-white/10 p-5 text-center backdrop-blur-xl md:block">
+            <p className="font-display text-5xl font-bold text-white">4.8</p>
+            <p className="mt-1 text-amber-300">★★★★★</p>
+            <p className="mt-1 text-[11px] uppercase tracking-wider text-white/70">{t("rated_t")}</p>
+          </div>
+        </section>
+      </div>
 
       <DeliveryTicker />
 
@@ -134,7 +138,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* bestsellers */}
+      {/* bestsellers rail */}
       <section className="mt-16 bg-cream/60 py-16 md:mt-24 md:py-24">
         <div className="mx-auto max-w-6xl px-4">
           <Reveal>
@@ -143,32 +147,62 @@ export default function Home() {
                 <Eyebrow no="02">{t("pop_eb")}</Eyebrow>
                 <h2 className="font-display mt-2 leading-[0.9]" style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)" }}>{t("best")}</h2>
               </div>
-              <Link href="/products" className="btn-slide hidden items-center gap-1.5 rounded-full border border-ink/20 px-5 py-2.5 text-sm font-bold transition hover:border-ink hover:bg-ink hover:text-white sm:inline-flex">
-                {t("view_all")} <ArrowRight size={15} />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/products" className="btn-slide mr-1 hidden items-center gap-1.5 text-sm font-bold sm:inline-flex">
+                  {t("view_all")} <ArrowRight size={15} />
+                </Link>
+                <button onClick={() => rail(-1)} aria-label="Previous" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-white transition hover:bg-ink hover:text-white">
+                  <ChevronLeft size={18} />
+                </button>
+                <button onClick={() => rail(1)} aria-label="Next" className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-white transition hover:bg-ink hover:text-white">
+                  <ChevronRight size={18} />
+                </button>
+              </div>
             </div>
           </Reveal>
-          <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {PRODUCTS.slice(0, 4).map((p, i) => (
-              <Reveal key={p.slug} delay={i * 90}>
-                <Link href={`/products/${p.slug}`} className="lift group block overflow-hidden rounded-2xl border border-stone-200/70 bg-white">
+          <Reveal delay={100}>
+            <div ref={railRef} className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {PRODUCTS.slice(0, 8).map((p, i) => (
+                <Link key={p.slug} href={`/products/${p.slug}`} className="lift group w-[240px] shrink-0 snap-start overflow-hidden rounded-2xl border border-stone-200/70 bg-white md:w-[270px]">
                   <div className="relative bg-card p-5">
-                    <span className="absolute left-3 top-3 z-10 rounded-full bg-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-yellow">New</span>
+                    <span className="absolute left-3 top-3 z-10 rounded-full border border-ink/10 bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider">{t(TAGS[i])}</span>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.image} alt={p.name} loading="lazy" className="mx-auto aspect-square object-contain transition duration-500 group-hover:scale-[1.06] group-hover:-rotate-1" />
+                    <img src={p.image} alt={p.name} loading="lazy" className="mx-auto aspect-square object-contain transition duration-500 group-hover:scale-105" />
                   </div>
                   <div className="p-4">
-                    <p className="text-[14px] font-semibold leading-snug">{p.name}</p>
-                    <p className="mt-1.5 text-[13px] text-stone-500">
-                      <span className="text-base font-extrabold text-ink">{inr(p.price)}</span>{" "}
-                      <span className="line-through">{inr(p.mrp)}</span>
-                    </p>
+                    <p className="line-clamp-2 min-h-10 text-[14px] font-semibold leading-snug">{p.name}</p>
+                    <div className="mt-2 flex items-center justify-between">
+                      <p className="text-[13px] text-stone-500">
+                        <span className="text-base font-extrabold text-ink">{inr(p.price)}</span>{" "}
+                        <span className="line-through">{inr(p.mrp)}</span>
+                      </p>
+                      <span className="rounded-full bg-green-700 px-3 py-1.5 text-[12px] font-bold text-white">+ {t("cart")}</span>
+                    </div>
                   </div>
                 </Link>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
+      </section>
+
+      {/* wide lifestyle banner */}
+      <section className="mx-auto max-w-6xl px-4 pt-12 md:pt-16">
+        <Reveal>
+          <Link href="/gallery" className="group relative block overflow-hidden rounded-[2rem]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/legacy/hero-3.png" alt="Excellent Dry installations" className="h-64 w-full object-cover transition duration-700 group-hover:scale-105 md:h-96" />
+            <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+            <span className="absolute bottom-0 flex w-full flex-wrap items-end justify-between gap-3 p-6 text-white md:p-10">
+              <span className="font-display leading-[0.9]" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
+                1,00,000+ homes<br />dry with us.
+              </span>
+              <span className="btn-slide inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-ink transition group-hover:bg-brand-yellow">
+                {t("nav_gallery")} <ArrowRight size={16} />
+              </span>
+            </span>
+          </Link>
+        </Reveal>
       </section>
 
       {/* corporate clients marquee */}
