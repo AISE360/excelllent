@@ -29,6 +29,7 @@ export default async function Footer() {
             <li><Link className="hover:text-ink" href="/contact">{t("nav_contact")}</Link></li>
             <li><Link className="hover:text-ink" href="/become-retailer">{t("nav_retailer")}</Link></li>
             <li><Link className="hover:text-ink" href="/gallery">{t("nav_gallery")}</Link></li>
+            <li><Link className="hover:text-ink" href="/clients">{t("nav_clients")}</Link></li>
             <li><Link className="hover:text-ink" href="/testimonials">{t("nav_reviews")}</Link></li>
           </ul>
         </div>

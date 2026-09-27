@@ -110,6 +110,13 @@ const en = {
   gallery_s: "Real fittings across Pune. New photos are added from Admin Media.",
   testi_t: "Rated 4.8/5.",
   ret_t: "Become a retailer.",
+  delivery_t: "Delivery areas",
+  select_size: "Select size and lines:",
+  nav_clients: "Clients",
+  cli_t: "Our Valuable Clients.",
+  cli_res: "Residential Clients",
+  cli_govt: "Government Clients",
+  cli_hostels: "Hostels",
 };
 
 export type Key = keyof typeof en;
@@ -219,6 +226,13 @@ const hi: Record<Key, string> = {
   gallery_s: "पूरे पुणे में असली इंस्टॉलेशन। नई तस्वीरें Admin Media से जुड़ती हैं।",
   testi_t: "रेटिंग 4.8/5।",
   ret_t: "रिटेलर बनें।",
+  delivery_t: "डिलीवरी क्षेत्र",
+  select_size: "साइज़ और लाइन चुनें:",
+  nav_clients: "ग्राहक",
+  cli_t: "हमारे मूल्यवान ग्राहक।",
+  cli_res: "रिहायशी ग्राहक",
+  cli_govt: "सरकारी ग्राहक",
+  cli_hostels: "हॉस्टल",
 };
 
 const mr: Record<Key, string> = {
@@ -326,6 +340,13 @@ const mr: Record<Key, string> = {
   gallery_s: "संपूर्ण पुण्यात खरे इंस्टॉलेशन। नवीन फोटो Admin Media मधून जोडले जातात।",
   testi_t: "रेटिंग 4.8/5।",
   ret_t: "रिटेलर व्हा।",
+  delivery_t: "डिलिव्हरी क्षेत्र",
+  select_size: "आकार आणि लाइन्स निवडा:",
+  nav_clients: "ग्राहक",
+  cli_t: "आमचे मौल्यवान ग्राहक।",
+  cli_res: "निवासी ग्राहक",
+  cli_govt: "सरकारी ग्राहक",
+  cli_hostels: "वसतिगृहे",
 };
 
 const STRINGS = { en, hi, mr };

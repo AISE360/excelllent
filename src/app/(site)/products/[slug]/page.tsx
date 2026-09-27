@@ -27,6 +27,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
   if (!p) notFound();
   const lang = await getLang();
   const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
+  const siblings = PRODUCTS.filter((x) => x.category === p.category);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -55,6 +56,26 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
             <span className="bg-brand-yellow px-1.5 py-0.5 text-xs font-bold">SAVE {inr(p.mrp - p.price)}</span>
           </p>
           <p className="mt-3 text-[14px] leading-relaxed text-stone-600">{p.blurb}</p>
+          <div className="mt-5">
+            <p className="text-[13px] font-bold">{t("select_size")}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {siblings.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/products/${s.slug}`}
+                  title={s.name}
+                  className={`border px-3.5 py-2 text-[13px] font-semibold transition ${
+                    s.slug === p.slug
+                      ? "border-ink bg-ink text-white"
+                      : "border-stone-300 bg-white hover:border-ink"
+                  }`}
+                >
+                  {s.feet} Ft · {s.lines} Lines
+                  <span className="ml-2 font-normal opacity-70">{inr(s.price)}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
           <ul className="mt-4 space-y-1.5 text-sm text-stone-600">
             <li>✓ {t("d_b1")}</li>
             <li>✓ {t("d_b2")}</li>

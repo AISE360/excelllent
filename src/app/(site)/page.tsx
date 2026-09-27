@@ -6,6 +6,7 @@ import { inr, DEMO_VIDEO_ID, PRODUCTS, TESTIMONIALS } from "@/lib/site";
 import { type Key } from "@/lib/strings";
 import { useT } from "@/components/LanguageSwitcher";
 import Reveal from "@/components/Reveal";
+import DeliveryTicker from "@/components/DeliveryTicker";
 
 export default function Home() {
   const t = useT();
@@ -62,6 +63,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <DeliveryTicker />
 
       {/* category cards */}
       <section className="mx-auto grid max-w-6xl grid-cols-1 gap-3 px-4 pt-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -122,7 +125,9 @@ export default function Home() {
       {/* corporate clients marquee */}
       <section className="mt-12 bg-stone-50 py-10">
         <Reveal>
-          <h2 className="font-display text-center text-4xl font-bold md:text-5xl">{t("clients_t")}</h2>
+          <h2 className="font-display text-center text-4xl font-bold md:text-5xl">
+            <Link href="/clients" className="hover:text-brand-red">{t("clients_t")}</Link>
+          </h2>
         </Reveal>
         <Reveal delay={120}>
           <div className="marquee marquee-mask mt-6 overflow-hidden">

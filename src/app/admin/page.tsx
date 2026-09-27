@@ -105,7 +105,7 @@ export default function AdminPage() {
       ]);
       if (l.data) setLeads(l.data as Lead[]);
       if (p.data && p.data.length) {
-        setProducts(p.data.map((r) => ({ slug: r.slug, name: r.name, category: r.category, size: r.size ?? "", mrp: Number(r.mrp), price: Number(r.price), image: r.image_url ?? "", blurb: r.blurb ?? "" })));
+        setProducts(p.data.map((r) => ({ slug: r.slug, name: r.name, category: r.category, size: r.size ?? "", feet: Number(r.feet ?? 0), lines: Number(r.lines ?? 0), mrp: Number(r.mrp), price: Number(r.price), image: r.image_url ?? "", blurb: r.blurb ?? "" })));
       }
       if (s.data) setSettings({ phone1: s.data.phone1, phone2: s.data.phone2, email: s.data.email, address: s.data.address, hours: s.data.hours });
     } else {
@@ -131,6 +131,7 @@ export default function AdminPage() {
     if (configured) {
       const { error } = await supabaseBrowser().from("products").upsert({
         slug: editing.slug, name: editing.name, category: editing.category, size: editing.size,
+        feet: editing.feet, lines: editing.lines,
         mrp: editing.mrp, price: editing.price, image_url: editing.image, blurb: editing.blurb, active: true,
       }, { onConflict: "slug" });
       if (error) { setMsg(error.message); return; }
@@ -335,7 +336,7 @@ export default function AdminPage() {
           {tab === "Products" && (
             <div>
               <button
-                onClick={() => { setEditing({ slug: `new-${Date.now()}`, name: "", category: "Ceiling Mount", size: "5 Ft", mrp: 0, price: 0, image: "/legacy/hero-1.png", blurb: "" }); setIsNew(true); }}
+                onClick={() => { setEditing({ slug: `new-${Date.now()}`, name: "", category: "Ceiling Mount", size: "5 Ft", feet: 5, lines: 4, mrp: 0, price: 0, image: "/legacy/hero-1.png", blurb: "" }); setIsNew(true); }}
                 className="flex items-center gap-1.5 bg-ink px-4 py-2.5 text-sm font-bold text-white"
               >
                 <Plus size={15} /> Add product
@@ -365,6 +366,10 @@ export default function AdminPage() {
                       </div>
                       <div className="grid grid-cols-3 gap-3">
                         <input className={inp} placeholder="Size (5 Ft)" value={editing.size} onChange={(e) => setEditing({ ...editing, size: e.target.value })} />
+                        <input className={inp} type="number" placeholder="Feet" value={editing.feet} onChange={(e) => setEditing({ ...editing, feet: Number(e.target.value) })} />
+                        <input className={inp} type="number" placeholder="Lines" value={editing.lines} onChange={(e) => setEditing({ ...editing, lines: Number(e.target.value) })} />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
                         <input className={inp} type="number" placeholder="MRP" value={editing.mrp} onChange={(e) => setEditing({ ...editing, mrp: Number(e.target.value) })} />
                         <input className={inp} type="number" placeholder="Price" value={editing.price} onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })} />
                       </div>
