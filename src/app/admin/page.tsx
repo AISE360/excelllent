@@ -46,6 +46,8 @@ export default function AdminPage() {
   const [uploading, setUploading] = useState(false);
   const [uploads, setUploads] = useState<string[]>([]);
 
+  const inp = "w-full rounded-xl border border-black/15 bg-white px-3.5 py-2.5 text-sm font-medium outline-none transition focus:border-[#173063] focus:ring-2 focus:ring-[#173063]/15";
+
   /* ---------- session ---------- */
   useEffect(() => {
     (async () => {
@@ -196,29 +198,34 @@ export default function AdminPage() {
     return (
       <>
         <AdminBar />
-        <div className="bg-card min-h-[70dvh]">
+        <div className="min-h-[70dvh] bg-[#f4f7fd]">
         <div className="mx-auto max-w-md px-4 py-16">
-          <p className="font-display text-4xl font-bold">Admin login.</p>
-          <p className="mt-1 text-sm text-stone-500">
-            {configured ? "Sign in with your Supabase team account." : "Demo mode , use the demo credentials below."}
-          </p>
-          <form onSubmit={login} className="mt-6 border border-stone-200 bg-white p-6">
-            <label className="text-xs font-bold uppercase text-stone-400">Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com"
-              className="mt-1 w-full border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-ink" />
-            <label className="mt-4 block text-xs font-bold uppercase text-stone-400">Password</label>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="••••••••"
-              className="mt-1 w-full border border-stone-300 px-3 py-2.5 text-sm outline-none focus:border-ink" />
-            {err && <p className="mt-3 bg-red-50 p-2 text-[13px] text-red-700">{err}</p>}
-            <button disabled={busy} className="mt-5 w-full bg-ink py-3 text-sm font-bold text-white disabled:opacity-60">
-              {busy ? "Signing in…" : "Sign in →"}
-            </button>
-            {!configured && (
-              <p className="mt-4 bg-brand-yellow/40 p-3 text-[13px]">
-                Demo login<br /><strong>{DEMO_EMAIL}</strong> / <strong>{DEMO_PASS}</strong>
+          <div className="overflow-hidden rounded-[1.75rem] border border-black/10 bg-white shadow-[0_30px_70px_-30px_rgb(23_48_99/0.4)]">
+            <div className="bg-[#173063] p-7 text-white">
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-white/60">Excellent Dry · Admin</p>
+              <p className="mt-1 text-3xl font-extrabold tracking-tight">Welcome back.</p>
+              <p className="mt-1 text-sm text-white/65">
+                {configured ? "Sign in with your Supabase team account." : "Demo mode — use the demo credentials below."}
               </p>
-            )}
-          </form>
+            </div>
+            <form onSubmit={login} className="p-6 md:p-7">
+              <label className="text-xs font-extrabold uppercase tracking-wider text-black/45">Email</label>
+              <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com"
+                className={`${inp} mt-1.5`} />
+              <label className="mt-4 block text-xs font-extrabold uppercase tracking-wider text-black/45">Password</label>
+              <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="••••••••"
+                className={`${inp} mt-1.5`} />
+              {err && <p className="mt-3 rounded-xl bg-[#d9232e]/10 p-3 text-[13px] font-bold text-[#d9232e]">{err}</p>}
+              <button disabled={busy} className="mt-5 w-full rounded-full bg-[#173063] py-3.5 text-sm font-extrabold text-white transition hover:bg-[#0c1c3d] disabled:opacity-60">
+                {busy ? "Signing in…" : "Sign in →"}
+              </button>
+              {!configured && (
+                <p className="mt-4 rounded-2xl bg-[#f4f7fd] p-4 text-[13px] font-medium text-black/60">
+                  Demo login<br /><strong className="text-black">{DEMO_EMAIL}</strong> / <strong className="text-black">{DEMO_PASS}</strong>
+                </p>
+              )}
+            </form>
+          </div>
         </div>
       </div>
       </>
@@ -233,39 +240,39 @@ export default function AdminPage() {
     { t: "Media" as Tab, icon: <ImageIcon size={16} /> },
     { t: "Settings" as Tab, icon: <SettingsIcon size={16} /> },
   ];
-  const inp = "w-full border border-stone-300 bg-white px-3 py-2 text-sm outline-none focus:border-ink";
 
   return (
     <>
       <AdminBar />
       <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="font-display text-4xl font-bold">Dashboard.</p>
-          <p className="text-[13px] text-stone-500">
-            {configured ? "Connected to Supabase ✓" : "Demo mode , add Supabase keys in .env.local for live data"}
+          <p className="mega-type text-4xl md:text-5xl">Dashboard.</p>
+          <p className="mt-1 flex items-center gap-1.5 text-[13px] font-semibold text-black/50">
+            <span className={`h-2 w-2 rounded-full ${configured ? "bg-green-600" : "bg-[#d9232e]"}`} />
+            {configured ? "Connected to Supabase ✓" : "Demo mode — add Supabase keys in .env.local for live data"}
           </p>
         </div>
-        <button onClick={logout} className="flex items-center gap-1.5 border border-stone-300 px-3 py-2 text-[13px] font-semibold">
+        <button onClick={logout} className="flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-4 py-2.5 text-[13px] font-bold transition hover:border-black">
           <LogOut size={14} /> Sign out
         </button>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[200px_1fr]">
-        <nav className="flex gap-2 overflow-x-auto lg:flex-col">
+      <div className="mt-6 grid gap-6 lg:grid-cols-[210px_1fr]">
+        <nav className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:pb-0">
           {NAV.map((n) => (
             <button key={n.t} onClick={() => { setTab(n.t); setMsg(""); }}
-              className={`flex items-center gap-2 px-3 py-2.5 text-sm font-semibold ${tab === n.t ? "bg-ink text-white" : "bg-white border border-stone-200"}`}>
+              className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold transition lg:rounded-2xl ${tab === n.t ? "bg-[#173063] text-white shadow-lg" : "border border-black/10 bg-white hover:border-black/30"}`}>
               {n.icon} {n.t}
               {n.t === "Enquiries" && leads.length > 0 && (
-                <span className="ml-auto bg-brand-yellow px-1.5 text-xs font-bold text-ink">{leads.length}</span>
+                <span className="ml-auto rounded-full bg-[#d9232e] px-2 py-0.5 text-[11px] font-extrabold text-white">{leads.length}</span>
               )}
             </button>
           ))}
         </nav>
 
         <div className="min-w-0">
-          {msg && <p className="mb-4 bg-green-50 p-2.5 text-[13px] text-green-800">{msg}</p>}
+          {msg && <p className="mb-4 rounded-2xl bg-green-700/10 p-3.5 text-[13px] font-bold text-green-800">{msg}</p>}
 
           {tab === "Overview" && (
             <>
@@ -276,29 +283,29 @@ export default function AdminPage() {
                   ["Avg. rating", "4.8/5"],
                   ["Installations", "1L+"],
                 ].map(([k, v]) => (
-                  <div key={k} className="border border-stone-200 bg-white p-5">
-                    <p className="font-display text-4xl font-bold">{v}</p>
-                    <p className="text-[13px] text-stone-500">{k}</p>
+                  <div key={k} className="rounded-3xl border border-black/10 bg-white p-5 shadow-[0_18px_40px_-28px_rgb(23_48_99/0.5)]">
+                    <p className="text-3xl font-extrabold tracking-tight text-[#173063] md:text-4xl">{v}</p>
+                    <p className="mt-0.5 text-[13px] font-bold text-black/45">{k}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-6 text-sm font-bold">Latest enquiries</p>
-              <div className="mt-2 border border-stone-200 bg-white">
+              <p className="mt-6 text-sm font-extrabold">Latest enquiries</p>
+              <div className="mt-2 overflow-hidden rounded-3xl border border-black/10 bg-white">
                 {leads.slice(0, 5).map((l) => (
-                  <div key={l.id} className="flex justify-between gap-3 border-b border-stone-100 p-3 text-sm last:border-0">
-                    <span><strong>{l.name}</strong> <span className="text-stone-400">· {l.area} · {l.product}</span></span>
-                    <a className="font-semibold hover:underline" href={`tel:${l.phone}`}>{l.phone}</a>
+                  <div key={l.id} className="flex justify-between gap-3 border-b border-black/[0.06] p-3.5 text-sm last:border-0">
+                    <span><strong>{l.name}</strong> <span className="text-black/40">· {l.area} · {l.product}</span></span>
+                    <a className="font-bold text-[#173063] hover:underline" href={`tel:${l.phone}`}>{l.phone}</a>
                   </div>
                 ))}
-                {leads.length === 0 && <p className="p-4 text-sm text-stone-400">No enquiries yet.</p>}
+                {leads.length === 0 && <p className="p-4 text-sm text-black/40">No enquiries yet.</p>}
               </div>
             </>
           )}
 
           {tab === "Enquiries" && (
-            <div className="overflow-x-auto border border-stone-200 bg-white">
-              <div className="flex items-center justify-between border-b border-stone-200 p-3">
-                <p className="text-sm font-bold">{leads.length} enquiries</p>
+            <div className="overflow-x-auto rounded-3xl border border-black/10 bg-white">
+              <div className="flex items-center justify-between border-b border-black/10 p-4">
+                <p className="text-sm font-extrabold">{leads.length} enquiries</p>
                 <button
                   onClick={() => {
                     const csv = "name,phone,area,product,message\n" + leads.map((l) => [l.name, l.phone, l.area, l.product, l.message].map((x) => `"${(x ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -307,27 +314,27 @@ export default function AdminPage() {
                     a.download = "enquiries.csv";
                     a.click();
                   }}
-                  className="flex items-center gap-1 border border-stone-300 px-2.5 py-1.5 text-xs font-semibold"
+                  className="flex items-center gap-1.5 rounded-full border border-black/15 px-3.5 py-2 text-xs font-extrabold transition hover:border-black"
                 >
                   <Download size={13} /> CSV
                 </button>
               </div>
               <table className="w-full min-w-[640px] text-sm">
-                <thead><tr className="bg-stone-50 text-left text-xs uppercase text-stone-400">
-                  <th className="p-3">Date</th><th className="p-3">Name</th><th className="p-3">Phone</th><th className="p-3">Area</th><th className="p-3">Product</th><th className="p-3"></th>
+                <thead><tr className="bg-[#f4f7fd] text-left text-[11px] font-extrabold uppercase tracking-wider text-black/45">
+                  <th className="p-3.5">Date</th><th className="p-3.5">Name</th><th className="p-3.5">Phone</th><th className="p-3.5">Area</th><th className="p-3.5">Product</th><th className="p-3.5"></th>
                 </tr></thead>
                 <tbody>
                   {leads.map((l) => (
-                    <tr key={l.id} className="border-t border-stone-100">
-                      <td className="p-3 text-xs">{new Date(l.created_at).toLocaleString("en-IN")}</td>
-                      <td className="p-3 font-semibold">{l.name}</td>
-                      <td className="p-3"><a className="font-semibold hover:underline" href={`tel:${l.phone}`}>{l.phone}</a></td>
-                      <td className="p-3">{l.area}</td>
-                      <td className="p-3">{l.product}</td>
-                      <td className="p-3"><button onClick={() => deleteLead(l.id)} aria-label="Delete"><Trash2 size={15} className="text-red-600" /></button></td>
+                    <tr key={l.id} className="border-t border-black/[0.06] transition hover:bg-[#f4f7fd]/60">
+                      <td className="p-3.5 text-xs font-medium text-black/50">{new Date(l.created_at).toLocaleString("en-IN")}</td>
+                      <td className="p-3.5 font-bold">{l.name}</td>
+                      <td className="p-3.5"><a className="font-bold text-[#173063] hover:underline" href={`tel:${l.phone}`}>{l.phone}</a></td>
+                      <td className="p-3.5">{l.area}</td>
+                      <td className="p-3.5">{l.product}</td>
+                      <td className="p-3.5"><button onClick={() => deleteLead(l.id)} aria-label="Delete" className="rounded-lg p-1.5 transition hover:bg-[#d9232e]/10"><Trash2 size={15} className="text-[#d9232e]" /></button></td>
                     </tr>
                   ))}
-                  {leads.length === 0 && <tr><td className="p-6 text-stone-400" colSpan={6}>No enquiries yet.</td></tr>}
+                  {leads.length === 0 && <tr><td className="p-6 text-black/40" colSpan={6}>No enquiries yet.</td></tr>}
                 </tbody>
               </table>
             </div>
@@ -337,25 +344,25 @@ export default function AdminPage() {
             <div>
               <button
                 onClick={() => { setEditing({ slug: `new-${Date.now()}`, name: "", category: "Ceiling Mount", size: "5 Ft", feet: 5, lines: 4, mrp: 0, price: 0, image: "/legacy/hero-1.png", blurb: "" }); setIsNew(true); }}
-                className="flex items-center gap-1.5 bg-ink px-4 py-2.5 text-sm font-bold text-white"
+                className="flex items-center gap-1.5 rounded-full bg-[#173063] px-5 py-2.5 text-sm font-extrabold text-white shadow-lg transition hover:bg-[#0c1c3d]"
               >
                 <Plus size={15} /> Add product
               </button>
-              <div className="mt-3 border border-stone-200 bg-white">
+              <div className="mt-3 overflow-hidden rounded-3xl border border-black/10 bg-white">
                 {products.map((p) => (
-                  <div key={p.slug} className="flex items-center gap-3 border-b border-stone-100 p-3 text-sm last:border-0">
+                  <div key={p.slug} className="flex items-center gap-3 border-b border-black/[0.06] p-3 text-sm transition last:border-0 hover:bg-[#f4f7fd]/60">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.image} alt="" className="h-10 w-10 bg-card object-contain" />
-                    <span className="min-w-0 flex-1"><strong>{p.name}</strong> <span className="text-stone-400">· ₹{p.price}</span></span>
-                    <button onClick={() => { setEditing({ ...p }); setIsNew(false); }} aria-label="Edit"><Pencil size={15} /></button>
-                    <button onClick={() => deleteProduct(p.slug)} aria-label="Delete"><Trash2 size={15} className="text-red-600" /></button>
+                    <img src={p.image} alt="" className="h-11 w-11 rounded-xl bg-[#f4f7fd] object-contain" />
+                    <span className="min-w-0 flex-1"><strong>{p.name}</strong> <span className="font-semibold text-black/40">· ₹{p.price}</span></span>
+                    <button onClick={() => { setEditing({ ...p }); setIsNew(false); }} aria-label="Edit" className="rounded-lg p-1.5 transition hover:bg-black/5"><Pencil size={15} /></button>
+                    <button onClick={() => deleteProduct(p.slug)} aria-label="Delete" className="rounded-lg p-1.5 transition hover:bg-[#d9232e]/10"><Trash2 size={15} className="text-[#d9232e]" /></button>
                   </div>
                 ))}
               </div>
               {editing && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
-                  <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto bg-white p-6">
-                    <p className="font-display text-3xl font-bold">{isNew ? "Add product." : "Edit product."}</p>
+                <div className="fade-in fixed inset-0 z-[60] flex items-center justify-center bg-[#071026]/70 p-4 backdrop-blur-[2px]">
+                  <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-[1.75rem] bg-white p-6 shadow-2xl md:p-7">
+                    <p className="text-2xl font-extrabold tracking-tight md:text-3xl">{isNew ? "Add product." : "Edit product."}</p>
                     <div className="mt-4 grid gap-3">
                       <input className={inp} placeholder="Product name" value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} />
                       <div className="grid grid-cols-2 gap-3">
@@ -376,9 +383,9 @@ export default function AdminPage() {
                       <input className={inp} placeholder="Image URL (/legacy/… or https://…webp)" value={editing.image} onChange={(e) => setEditing({ ...editing, image: e.target.value })} />
                       <textarea className={inp} rows={3} placeholder="Short description" value={editing.blurb} onChange={(e) => setEditing({ ...editing, blurb: e.target.value })} />
                     </div>
-                    <div className="mt-4 flex gap-2">
-                      <button onClick={saveProduct} className="flex-1 bg-ink py-2.5 text-sm font-bold text-white">Save</button>
-                      <button onClick={() => setEditing(null)} className="flex-1 border border-stone-300 py-2.5 text-sm font-semibold">Cancel</button>
+                    <div className="mt-5 flex gap-2">
+                      <button onClick={saveProduct} className="flex-1 rounded-full bg-[#173063] py-3 text-sm font-extrabold text-white transition hover:bg-[#0c1c3d]">Save</button>
+                      <button onClick={() => setEditing(null)} className="flex-1 rounded-full border border-black/15 py-3 text-sm font-bold transition hover:border-black">Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -387,17 +394,19 @@ export default function AdminPage() {
           )}
 
           {tab === "Media" && (
-            <div className="border border-stone-200 bg-white p-5">
-              <p className="text-sm font-bold">Upload image , auto-converts to .webp</p>
-              <p className="mt-1 text-[13px] text-stone-500">Compressed to max 1600px / ~0.8MB before upload.</p>
-              <input type="file" accept="image/*" onChange={upload} className="mt-3 text-sm" />
-              {uploading && <p className="mt-2 text-sm">Compressing & uploading…</p>}
+            <div className="rounded-3xl border border-black/10 bg-white p-6 md:p-7">
+              <p className="text-base font-extrabold tracking-tight">Upload image — auto-converts to .webp</p>
+              <p className="mt-1 text-[13px] font-medium text-black/50">Compressed to max 1600px / ~0.8MB before upload.</p>
+              <label className="mt-4 flex cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-black/15 bg-[#f4f7fd] px-4 py-6 text-sm font-bold text-black/60 transition hover:border-[#173063] hover:text-[#173063]">
+                <input type="file" accept="image/*" onChange={upload} className="hidden" />
+                {uploading ? "Compressing & uploading…" : "+ Choose an image"}
+              </label>
               <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
                 {uploads.map((u) => (
-                  <div key={u} className="border border-stone-200">
+                  <div key={u} className="overflow-hidden rounded-2xl border border-black/10">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={u} alt="upload" className="aspect-square w-full object-cover" />
-                    <p className="break-all p-1.5 text-[11px] text-stone-400">{u.slice(0, 60)}…</p>
+                    <p className="break-all bg-white p-2 text-[11px] font-medium text-black/40">{u.slice(0, 60)}…</p>
                   </div>
                 ))}
               </div>
@@ -405,16 +414,16 @@ export default function AdminPage() {
           )}
 
           {tab === "Settings" && (
-            <div className="grid max-w-lg gap-3 border border-stone-200 bg-white p-5">
+            <div className="grid max-w-lg gap-3 rounded-3xl border border-black/10 bg-white p-6 md:p-7">
               {(["phone1", "phone2", "email", "hours"] as const).map((k) => (
-                <label key={k} className="grid gap-1 text-xs font-bold uppercase text-stone-400">{k}
+                <label key={k} className="grid gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-black/45">{k}
                   <input className={inp} value={settings[k]} onChange={(e) => setSettings({ ...settings, [k]: e.target.value })} />
                 </label>
               ))}
-              <label className="grid gap-1 text-xs font-bold uppercase text-stone-400">address
+              <label className="grid gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-black/45">address
                 <textarea className={inp} rows={2} value={settings.address} onChange={(e) => setSettings({ ...settings, address: e.target.value })} />
               </label>
-              <button onClick={saveSettings} className="bg-ink py-2.5 text-sm font-bold text-white">Save settings</button>
+              <button onClick={saveSettings} className="rounded-full bg-[#173063] py-3 text-sm font-extrabold text-white transition hover:bg-[#0c1c3d]">Save settings</button>
             </div>
           )}
         </div>
@@ -424,16 +433,17 @@ export default function AdminPage() {
   );
 }
 
-/** Slim admin-only bar , no storefront menu, footer or WhatsApp here. */
+/** Slim admin-only bar — no storefront menu, footer or WhatsApp here. */
 function AdminBar() {
   return (
-    <div className="border-b border-stone-200 bg-white">
+    <div className="border-b border-black/10 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <span className="font-display text-[22px] font-bold leading-none">
-          excellent<span className="text-brand-red">dry</span>
-          <span className="ml-2 bg-ink px-1.5 py-0.5 align-middle text-[11px] font-bold text-white">ADMIN</span>
+        <span className="flex items-center gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/legacy/logo.png" alt="Excellent Dry" className="h-8 w-auto" />
+          <span className="rounded-md bg-[#d9232e] px-2 py-0.5 text-[11px] font-extrabold tracking-wider text-white">ADMIN</span>
         </span>
-        <Link href="/" className="text-[13px] font-semibold hover:text-brand-red">← View website</Link>
+        <Link href="/" className="text-[13px] font-bold text-[#173063] hover:underline">← View website</Link>
       </div>
     </div>
   );
