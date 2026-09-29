@@ -41,64 +41,65 @@ export default function Home() {
 
   return (
     <>
-      {/* SKANVI-STYLE SPLIT HERO */}
-      <div className="mx-auto max-w-6xl px-4 pt-4">
-        <section className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_24px_60px_-30px_rgb(0_0_0/0.25)] md:grid-cols-2">
-          <div className="relative z-[2] flex flex-col justify-center p-8 md:p-12">
+      {/* FULLSCREEN SPLIT HERO */}
+      <section className="grid bg-white lg:min-h-[calc(100svh-118px)] lg:grid-cols-[1.05fr_1fr]">
+        <div className="flex items-center px-6 py-14 md:px-12 md:py-20 lg:py-0">
+          <div className="w-full max-w-2xl justify-self-end">
             <p className="rise rise-1 text-[11px] font-bold uppercase tracking-[0.24em] text-pine">
               {t("hero_eb")}
             </p>
-            <h1 className="rise rise-2 font-serifed mt-3 leading-[1.04]" style={{ fontSize: "clamp(2.6rem, 5vw, 4.5rem)" }}>
+            <h1 className="rise rise-2 font-serifed mt-3 leading-[1.02]" style={{ fontSize: "clamp(3rem, 6.5vw, 6.5rem)" }}>
               {t("hero_l1")} {t("hero_l2")}
             </h1>
-            <p className="rise rise-3 mt-4 max-w-md text-[14px] leading-relaxed text-stone-600">
+            <p className="rise rise-3 mt-4 max-w-md text-[15px] leading-relaxed text-stone-600">
               {t("hero_sub")}
             </p>
-            <div className="rise rise-3 mt-6">
+            <div className="rise rise-3 mt-7">
               <Link
                 href="/products"
-                className="btn-slide inline-flex items-center gap-2 rounded-full bg-pine px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-pine-deep"
+                className="btn-slide inline-flex items-center gap-2 rounded-full bg-pine px-8 py-4 text-sm font-bold text-white shadow-xl transition hover:bg-pine-deep"
               >
                 {t("hero_cta")} <ArrowRight size={16} />
               </Link>
             </div>
-            <div className="rise rise-4 mt-7 flex max-w-md flex-wrap gap-x-5 gap-y-2 border-t border-ink/10 pt-4">
+            <div className="rise rise-4 mt-8 grid max-w-lg grid-cols-2 gap-x-4 gap-y-3 border-t border-ink/10 pt-5">
               {BADGES.map((b) => (
-                <span key={b.t} className="flex items-center gap-1.5 text-ink/80">
+                <span key={b.t} className="flex items-center gap-2 text-ink/80">
                   <span className="text-pine">{b.icon}</span>
-                  <span className="text-[12px] font-semibold">{b.t} {b.s}</span>
+                  <span className="text-[13px] font-semibold">{b.t} {b.s}</span>
                 </span>
               ))}
             </div>
           </div>
-          <div className="relative grid min-h-80 grid-cols-[1fr_110px] gap-3 p-4 md:p-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/legacy/hero-1.png"
-              alt="Excellent Dry balcony drying system"
-              className="slow-zoom h-full min-h-72 w-full rounded-3xl object-cover md:min-h-[430px]"
-            />
-            <div className="hidden flex-col gap-3 sm:flex">
-              {[
-                { img: "/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg", label: "Ceiling" },
-                { img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg", label: "Wall" },
-                { img: "/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg", label: "Terrace" },
-              ].map((m) => (
-                <div key={m.label} className="relative flex-1 overflow-hidden rounded-2xl bg-white">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={m.img} alt={m.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-                  <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold">{m.label}</span>
-                </div>
-              ))}
-            </div>
-            <div className="floaty absolute right-8 top-8 z-[2] rounded-2xl border border-ink/10 bg-white/85 px-4 py-3 text-center shadow-lg backdrop-blur">
-              <p className="font-serifed text-3xl">4.8</p>
-              <p className="text-amber-500">★★★★★</p>
-              <p className="mt-0.5 text-[10px] uppercase tracking-wider text-stone-500">{t("rated_t")}</p>
-            </div>
+        </div>
+        <div className="relative min-h-[70svh] lg:min-h-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/legacy/hero-1.png"
+            alt="Excellent Dry balcony drying system"
+            className="slow-zoom absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-white to-transparent lg:block" />
+          <div className="absolute bottom-5 right-5 top-5 hidden w-32 flex-col gap-3 sm:flex">
+            {[
+              { img: "/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg", label: "Ceiling" },
+              { img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg", label: "Wall" },
+              { img: "/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg", label: "Terrace" },
+            ].map((m) => (
+              <div key={m.label} className="relative flex-1 overflow-hidden rounded-2xl border border-white/40 bg-white shadow-lg">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={m.img} alt={m.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold">{m.label}</span>
+              </div>
+            ))}
           </div>
-        </section>
-      </div>
+          <div className="floaty absolute left-5 top-5 z-[2] rounded-2xl border border-ink/10 bg-white/90 px-4 py-3 text-center shadow-xl backdrop-blur">
+            <p className="font-serifed text-3xl">4.8</p>
+            <p className="text-amber-500">★★★★★</p>
+            <p className="mt-0.5 text-[10px] uppercase tracking-wider text-stone-500">{t("rated_t")}</p>
+          </div>
+        </div>
+      </section>
 
       <DeliveryTicker />
 
