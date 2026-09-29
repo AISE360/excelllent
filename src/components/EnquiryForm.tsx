@@ -5,9 +5,9 @@ import { supabaseBrowser } from "@/lib/supabase/client";
 import { SITE } from "@/lib/site";
 import { useT } from "@/components/LanguageSwitcher";
 
-export default function EnquiryForm({ product = "" }: { product?: string }) {
+export default function EnquiryForm({ product = "", area = "" }: { product?: string; area?: string }) {
   const t = useT();
-  const [form, setForm] = useState({ name: "", phone: "", area: "", product, message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", area, product, message: "" });
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
 
