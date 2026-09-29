@@ -80,19 +80,6 @@ export default function Home() {
             className="slow-zoom absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-y-0 left-0 hidden w-24 bg-gradient-to-r from-white to-transparent lg:block" />
-          <div className="absolute bottom-5 right-5 top-5 hidden w-32 flex-col gap-3 sm:flex">
-            {[
-              { img: "/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg", label: "Ceiling" },
-              { img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg", label: "Wall" },
-              { img: "/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg", label: "Terrace" },
-            ].map((m) => (
-              <div key={m.label} className="relative flex-1 overflow-hidden rounded-2xl border border-white/40 bg-white shadow-lg">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={m.img} alt={m.label} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-                <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold">{m.label}</span>
-              </div>
-            ))}
-          </div>
           <div className="floaty absolute left-5 top-5 z-[2] rounded-2xl border border-ink/10 bg-white/90 px-4 py-3 text-center shadow-xl backdrop-blur">
             <p className="font-serifed text-3xl">4.8</p>
             <p className="text-amber-500">★★★★★</p>
