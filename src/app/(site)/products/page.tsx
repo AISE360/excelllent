@@ -7,15 +7,9 @@ import ProductCard from "@/components/ProductCard";
 import { PRODUCTS } from "@/lib/site";
 import { useT } from "@/components/LanguageSwitcher";
 
-const CATS = [
-  { key: "filter_pulley" as const, cat: "Open Terrace" },
-  { key: "filter_ceiling" as const, cat: "Ceiling Mount" },
-  { key: "filter_wall" as const, cat: "Wall Mount" },
-];
-
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<p className="mx-auto max-w-6xl px-4 py-20 text-sm text-stone-400">Loading...</p>}>
+    <Suspense fallback={<p className="mx-auto max-w-[1440px] px-4 py-20">Loading…</p>}>
       <List />
     </Suspense>
   );
@@ -37,88 +31,75 @@ function List() {
   if (sort === "low") list.sort((a, b) => a.price - b.price);
   if (sort === "high") list.sort((a, b) => b.price - a.price);
 
-  const keep = new URLSearchParams({ ...(cat ? { cat } : {}), ...(q ? { q } : {}) });
-  const sortHref = (s?: string) =>
-    `/products?${new URLSearchParams({ ...Object.fromEntries(keep), ...(s ? { sort: s } : {}) })}`;
+  const href = (params: Record<string, string | undefined>) => {
+    const s = new URLSearchParams();
+    if (params.cat) s.set("cat", params.cat);
+    if (params.q) s.set("q", params.q);
+    if (params.sort) s.set("sort", params.sort);
+    const str = s.toString();
+    return `/products${str ? `?${str}` : ""}`;
+  };
+
+  const cats: { label: string; value: string | undefined; img: string }[] = [
+    { label: "All 24", value: undefined, img: "/legacy/hero-2.png" },
+    { label: "Terrace", value: "Open Terrace", img: "/legacy/products/open-terrace/open-terrace-fitting-6-feet-4-lines.jpg" },
+    { label: "Ceiling", value: "Ceiling Mount", img: "/legacy/products/ceiling-mount/ceiling-mount-fitting-5-feet-4-lines.jpg" },
+    { label: "Wall", value: "Wall Mount", img: "/legacy/products/wall-mount/wall-mount-3-feet-4-lines.jpg" },
+  ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-4">
-      <p className="text-[12px] text-stone-500">
-        <Link href="/" className="hover:underline">{t("home")}</Link>
-        {" ＞ "} {t("shop_title")} {cat ? `＞ ${cat}` : ""}
-      </p>
+    <div className="bg-[#f7f5ef]">
+      {/* full-bleed PLP header */}
+      <div className="border-b border-black/10 bg-[#051e1d] text-white">
+        <div className="mx-auto max-w-[1440px] px-4 py-10 md:px-8 md:py-14">
+          <p className="text-[12px] font-bold text-white/50"><Link href="/" className="hover:text-white">Home</Link> / Shop{q ? ` / “${q}”` : ""}</p>
+          <h1 className="mega-type mt-2 text-[clamp(2.6rem,6vw,5rem)]">Shop systems<span className="text-[#e8b62a]">.</span></h1>
+          <p className="mt-3 max-w-2xl text-sm text-white/65 md:text-[15px]">{t("shop_desc")} Every price includes fitting, GST bill and 1-year service in Pune.</p>
+        </div>
+      </div>
 
-      <h1 className="font-display mt-1 leading-[0.9]" style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}>{t("shop_title")}</h1>
-      <p className="mt-2 max-w-3xl text-[13px] leading-relaxed text-stone-500">
-        {t("shop_desc")} {q && <>“<strong>{q}</strong>”</>}
-      </p>
+      <div className="mx-auto max-w-[1440px] px-4 md:px-8">
+        {/* visual category selector */}
+        <div className="mt-6 grid grid-cols-4 gap-2.5 md:gap-3">
+          {cats.map((c) => {
+            const active = (c.value ?? undefined) === cat && !q;
+            const n = c.value ? PRODUCTS.filter((p) => p.category === c.value).length : PRODUCTS.length;
+            return (
+              <Link key={c.label} href={href({ cat: c.value, q, sort })} className={`group overflow-hidden rounded-2xl border text-left transition ${active ? "border-black bg-black text-white shadow-xl" : "border-black/10 bg-white hover:-translate-y-0.5 hover:shadow-lg"}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.img} alt={c.label} className="hidden aspect-[16/8] w-full object-cover sm:block" />
+                <span className="block p-3 md:p-4">
+                  <span className="block text-sm font-extrabold md:text-base">{c.label} · {n}</span>
+                  <span className={`block text-[11px] font-bold md:text-[12px] ${active ? "text-white/60" : "text-stone-400"}`}>{active ? "Selected ✓" : "Tap to filter"}</span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[220px_1fr]">
-        <aside>
-          <p className="text-sm font-bold">{t("filter_t")}</p>
-          <div className="mt-3 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">{t("filter_cat")}</p>
-            <ul className="mt-2 space-y-1.5 text-[13px] text-stone-600">
-              <li>
-                <Link href="/products" className={!cat ? "inline-block rounded-full bg-ink px-3 py-1 font-bold text-white" : "hover:text-ink"}>
-                  {t("filter_all")} ({PRODUCTS.length})
-                </Link>
-              </li>
-              {CATS.map((c) => {
-                const n = PRODUCTS.filter((p) => p.category === c.cat).length;
-                return (
-                  <li key={c.cat}>
-                    <Link
-                      href={`/products?cat=${encodeURIComponent(c.cat)}`}
-                      className={cat === c.cat ? "inline-block rounded-full bg-ink px-3 py-1 font-bold text-white" : "hover:text-ink"}
-                    >
-                      {t(c.key)} ({n})
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-[13px] font-extrabold text-stone-500">{list.length} systems · pay after fitting</p>
+          <div className="flex items-center gap-4 text-[13px] font-bold">
+            {[
+              { l: t("sort_rec"), v: undefined },
+              { l: t("sort_low"), v: "low" },
+              { l: t("sort_high"), v: "high" },
+            ].map((s) => (
+              <Link key={s.l} href={href({ cat, q, sort: s.v })} className={`transition ${(sort ?? undefined) === s.v ? "underline underline-offset-4" : "text-stone-400 hover:text-black"}`}>{s.l}</Link>
+            ))}
           </div>
-          <div className="mt-4 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">{t("filter_size")}</p>
-            <ul className="mt-2 space-y-1.5 text-[13px] text-stone-600">
-              {["3 Ft", "4 Ft", "5 Ft", "6 Ft"].map((s) => {
-                const n = PRODUCTS.filter((p) => p.size === s).length;
-                return <li key={s}>☐ {s} ({n})</li>;
-              })}
-            </ul>
-          </div>
-          <div className="mt-4 border-t border-stone-200 pt-3">
-            <p className="text-[13px] font-bold">{t("filter_colour")}</p>
-            <div className="mt-2 flex gap-3 text-[12px] text-stone-600">
-              <span className="flex items-center gap-1"><i className="inline-block h-4 w-4 bg-ink" /> Steel</span>
-              <span className="flex items-center gap-1"><i className="inline-block h-4 w-4 bg-stone-400" /> Grey</span>
-              <span className="flex items-center gap-1"><i className="inline-block h-4 w-4 border border-stone-400 bg-white" /> White</span>
-            </div>
-          </div>
-        </aside>
+        </div>
 
-        <div>
-          <div className="flex items-center justify-between text-[13px]">
-            <p className="text-stone-500">{list.length} {t("products_n")}</p>
-            <p className="flex items-center gap-2">
-              {t("sort_by")}
-              <span className="flex gap-2 font-semibold">
-                <Link href={sortHref()} className={!sort ? "underline" : ""}>{t("sort_rec")}</Link>
-                <Link href={sortHref("low")} className={sort === "low" ? "underline" : ""}>{t("sort_low")}</Link>
-                <Link href={sortHref("high")} className={sort === "high" ? "underline" : ""}>{t("sort_high")}</Link>
-              </span>
-            </p>
-          </div>
-          {list.length === 0 ? (
-            <p className="mt-10 border border-stone-200 bg-stone-50 p-8 text-center text-sm text-stone-500">
-              <Link href="/products" className="font-semibold text-ink underline">{t("filter_all")}</Link>
-            </p>
-          ) : (
-            <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-8 xl:grid-cols-3">
-              {list.map((p) => <ProductCard key={p.slug} p={p} />)}
-            </div>
-          )}
+        <div className="grid grid-cols-2 gap-3 py-6 md:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          {list.map((p, i) => (
+            <ProductCard key={p.slug} p={p} badge={i < 2 ? "Bestseller" : cat ?? p.category} />
+          ))}
+        </div>
+
+        <div className="mb-10 grid gap-3 rounded-[1.75rem] bg-black p-7 text-sm text-white md:grid-cols-3 md:p-8">
+          <p><strong className="text-[#e8b62a]">Free visit.</strong> <span className="text-white/65">Measure first, pay later.</span></p>
+          <p><strong className="text-[#e8b62a]">90-min fitting.</strong> <span className="text-white/65">Anchors + cleanup included.</span></p>
+          <p><strong className="text-[#e8b62a]">Serviceable.</strong> <span className="text-white/65">Rope + pulleys replaceable.</span></p>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { getLang } from "@/lib/i18n";
 import { tr } from "@/lib/strings";
 import { SITE } from "@/lib/site";
@@ -8,66 +8,95 @@ export default async function Footer() {
   const lang = await getLang();
   const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
-    <footer className="mt-20 border-t border-ink/10 bg-white">
-      <div className="mx-auto max-w-6xl px-4 pb-8 pt-14">
-        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-ink/10 pb-10">
+    <footer className="mt-24 bg-[#051e1d] text-white">
+      {/* full-bleed CTA */}
+      <div className="mx-auto max-w-[1440px] px-4 py-14 md:px-8 md:py-20">
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div>
-            <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-pine">Excellent Dry System</p>
-            <p className="font-serifed mt-2 max-w-xl leading-[1.05]" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
-              Dry smart. Save space.
+            <p className="eyebrow !text-[#e8b62a]">Excellent Dry · Pune · Since 2014</p>
+            <p className="mega-type mt-4 text-[clamp(2.8rem,6vw,5.5rem)]">
+              Reclaim your<br />balcony<span className="text-[#e8b62a]">.</span>
+            </p>
+            <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/65">
+              Pulley terrace, ceiling and foldable wall systems in 304-grade steel. Measured, fitted and serviced by our own Pune team. Not a courier box.
             </p>
           </div>
-          <Link
-            href="/contact"
-            className="btn-slide inline-flex items-center gap-2 rounded-full bg-pine px-7 py-3.5 text-sm font-bold text-white transition hover:bg-pine-deep"
-          >
-            {t("cta_quote")} <ArrowUpRight size={16} />
-          </Link>
-        </div>
-
-        <div className="grid gap-10 py-10 text-sm md:grid-cols-4">
-          <div>
-            <p className="text-[12px] font-bold uppercase tracking-wider text-stone-500">{t("foot_shop")}</p>
-            <ul className="mt-4 space-y-2.5">
-              <li><Link className="transition hover:text-pine" href="/products?cat=Open Terrace">{t("nav_open")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/products?cat=Ceiling Mount">{t("nav_ceiling")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/products?cat=Wall Mount">{t("nav_fold")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/products">{t("nav_all")}</Link></li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-[12px] font-bold uppercase tracking-wider text-stone-500">{t("foot_service")}</p>
-            <ul className="mt-4 space-y-2.5">
-              <li><Link className="transition hover:text-pine" href="/about">{t("foot_about")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/contact">{t("nav_contact")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/become-retailer">{t("nav_retailer")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/gallery">{t("nav_gallery")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/testimonials">{t("nav_reviews")}</Link></li>
-              <li><Link className="transition hover:text-pine" href="/clients">{t("nav_clients")}</Link></li>
-            </ul>
-          </div>
-          <div className="md:col-span-2">
-            <p className="text-[12px] font-bold uppercase tracking-wider text-stone-500">{t("foot_contact")}</p>
-            <ul className="mt-4 space-y-3 text-stone-600">
-              <li className="flex gap-2.5"><MapPin size={16} className="mt-0.5 shrink-0 text-pine" />{SITE.address}</li>
-              <li>
-                <a className="flex gap-2.5 font-bold text-ink transition hover:text-pine" href={`tel:${SITE.phone1.replace(/\s/g, "")}`}>
-                  <Phone size={16} className="mt-0.5 shrink-0 text-pine" />{SITE.phone1} · {SITE.phone2}
-                </a>
-              </li>
-              <li className="flex gap-2.5"><Mail size={16} className="mt-0.5 shrink-0 text-pine" />{SITE.email}</li>
-            </ul>
-            <p className="mt-5 max-w-md text-[13px] leading-relaxed text-stone-500">{t("foot_tag")}</p>
+          <div className="rounded-[1.75rem] border border-white/12 bg-white/[0.06] p-6 backdrop-blur md:p-8">
+            <p className="text-lg font-extrabold">Free site visit this week</p>
+            <p className="mt-1 text-sm text-white/60">Baner · Wakad · Hinjewadi · Kothrud · Kharadi · Hadapsar + 40 areas</p>
+            <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+              <Link href="/contact" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#e8b62a] px-6 py-3.5 text-sm font-extrabold text-black hover:brightness-95">
+                {t("cta_quote")} <ArrowUpRight size={16} />
+              </Link>
+              <a href={`tel:${SITE.phone1.replace(/\s/g, "")}`} className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-sm font-bold hover:bg-white/10">
+                <Phone size={15} /> {SITE.phone1}
+              </a>
+            </div>
+            <p className="mt-3 flex items-center gap-1.5 text-[12px] text-white/50"><Clock size={13} /> {SITE.hours} · Replies in minutes</p>
           </div>
         </div>
+      </div>
 
-        <p className="font-serifed select-none text-center leading-none text-ink/[0.06]" style={{ fontSize: "clamp(4rem, 15vw, 13rem)" }}>
-          excellentdry
-        </p>
+      <div className="border-t border-white/10">
+        <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-12 text-sm md:grid-cols-4 md:px-8">
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Systems</p>
+            <ul className="mt-4 space-y-2.5 text-[15px] font-bold">
+              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Open Terrace">Open Terrace Pulley →</Link></li>
+              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Ceiling Mount">Ceiling Pulley →</Link></li>
+              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Wall Mount">Foldable Wall →</Link></li>
+              <li><Link className="hover:text-[#e8b62a]" href="/products">Compare all 24 →</Link></li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Company</p>
+            <ul className="mt-4 space-y-2.5 font-semibold text-white/75">
+              <li><Link className="hover:text-white" href="/about">{t("foot_about")}</Link></li>
+              <li><Link className="hover:text-white" href="/gallery">{t("nav_gallery")}</Link></li>
+              <li><Link className="hover:text-white" href="/testimonials">{t("nav_reviews")}</Link></li>
+              <li><Link className="hover:text-white" href="/clients">{t("nav_clients")}</Link></li>
+              <li><Link className="hover:text-white" href="/become-retailer">{t("nav_retailer")}</Link></li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Contact</p>
+            <ul className="mt-4 space-y-3 text-white/75">
+              <li className="flex gap-2"><MapPin size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.address}</li>
+              <li className="flex gap-2 font-bold text-white"><Phone size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.phone1} · {SITE.phone2}</li>
+              <li className="flex gap-2"><Mail size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.email}</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Why us</p>
+            <ul className="mt-4 space-y-2 text-white/65">
+              <li>✓ Manufacturer, not reseller</li>
+              <li>✓ Installation included, GST bill</li>
+              <li>✓ 1,00,000+ Pune fittings</li>
+              <li>✓ Serviceable rope + pulleys</li>
+            </ul>
+            <Link href="/contact" className="mt-4 inline-block rounded-full bg-white px-5 py-2.5 text-[13px] font-extrabold text-black hover:bg-[#e8b62a]">Get price on WhatsApp</Link>
+          </div>
+        </div>
+      </div>
 
-        <div className="flex flex-col items-center justify-between gap-2 border-t border-ink/10 pt-5 text-xs text-stone-500 sm:flex-row">
+      {/* giant logo */}
+      <div className="relative overflow-hidden border-t border-white/10">
+        <div className="mx-auto w-[min(1100px,92vw)] py-8 md:py-10">
+          <div className="rounded-[2rem] bg-white px-6 py-8 shadow-2xl md:px-12 md:py-10">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/legacy/logo.png"
+              alt="Excellent Dry, Clothes Drying System"
+              className="mx-auto w-full select-none"
+              draggable={false}
+            />
+          </div>
+        </div>
+        {/* black shadow from bottom */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-black via-black/75 to-transparent" />
+        <div className="relative mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-2 px-4 pb-6 text-[12px] text-white/40 sm:flex-row md:px-8">
           <p>© {new Date().getFullYear()} Excellent Dry System, Pune.</p>
-          <Link href="/admin" className="transition hover:text-ink">Admin login →</Link>
+          <p>Pulley drying systems · Designed for Indian homes</p>
         </div>
       </div>
     </footer>

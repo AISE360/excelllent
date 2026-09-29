@@ -17,7 +17,7 @@ export default function AddToCart({ slug }: { slug: string }) {
         setAdded(true);
         setTimeout(() => setAdded(false), 1500);
       }}
-      className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-bold text-white transition ${added ? "bg-green-600" : "bg-ink hover:bg-brand-cyan-deep"}`}
+      className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-sm font-bold text-white transition ${added ? "bg-green-700" : "bg-[#0b3b39] hover:bg-[#072928]"}`}
     >
       {added ? <><Check size={16} /> {t("d_added")} ✓</> : <><ShoppingCart size={16} /> {t("d_add")}</>}
     </button>

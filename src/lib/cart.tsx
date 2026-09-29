@@ -18,10 +18,13 @@ const Ctx = createContext<{
   setQty: (slug: string, qty: number) => void;
   remove: (slug: string) => void;
   clear: () => void;
+  cartOpen: boolean;
+  setCartOpen: (v: boolean) => void;
 } | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -49,13 +52,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       count,
       subtotal,
       mrpTotal,
-      add: (slug: string, qty = 1) =>
+      cartOpen,
+      setCartOpen,
+      add: (slug: string, qty = 1) => {
         setLines((prev) => {
           const f = prev.find((l) => l.slug === slug);
           return f
             ? prev.map((l) => (l.slug === slug ? { ...l, qty: Math.min(99, l.qty + qty) } : l))
             : [...prev, { slug, qty }];
-        }),
+        });
+        setCartOpen(true);
+      },
       setQty: (slug: string, qty: number) =>
         setLines((prev) =>
           qty <= 0 ? prev.filter((l) => l.slug !== slug) : prev.map((l) => (l.slug === slug ? { ...l, qty } : l))
@@ -63,7 +70,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       remove: (slug: string) => setLines((prev) => prev.filter((l) => l.slug !== slug)),
       clear: () => setLines([]),
     };
-  }, [lines]);
+  }, [lines, cartOpen]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

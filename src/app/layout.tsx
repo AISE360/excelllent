@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Inter, Instrument_Serif } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 
-const display = Barlow_Condensed({ weight: ["500", "600", "700"], subsets: ["latin"], variable: "--font-display" });
-const accent = Instrument_Serif({ weight: ["400"], style: ["normal", "italic"], subsets: ["latin"], variable: "--font-accent" });
-const body = Inter({ subsets: ["latin"] });
+const sans = Manrope({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.excellentdrysystem.com"),
@@ -39,8 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     priceRange: "₹₹",
   };
   return (
-    <html lang="en" className={`${display.variable} ${accent.variable}`}>
-      <body className={body.className}>
+    <html lang="en" className={sans.variable}>
+      <body className={`${sans.className} antialiased`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         {children}
       </body>
