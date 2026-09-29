@@ -48,19 +48,19 @@ function List() {
   ];
 
   return (
-    <div className="bg-[#f7f5ef]">
-      {/* full-bleed PLP header */}
-      <div className="border-b border-black/10 bg-[#051e1d] text-white">
+    <div className="bg-[#f4f7fd]">
+      {/* light PLP header */}
+      <div className="border-b border-black/10 bg-[#f4f7fd] text-[#1c1611]">
         <div className="mx-auto max-w-[1440px] px-4 py-10 md:px-8 md:py-14">
-          <p className="text-[12px] font-bold text-white/50"><Link href="/" className="hover:text-white">Home</Link> / Shop{q ? ` / “${q}”` : ""}</p>
-          <h1 className="mega-type mt-2 text-[clamp(2.6rem,6vw,5rem)]">Shop systems<span className="text-[#e8b62a]">.</span></h1>
-          <p className="mt-3 max-w-2xl text-sm text-white/65 md:text-[15px]">{t("shop_desc")} Every price includes fitting, GST bill and 1-year service in Pune.</p>
+          <p className="text-[12px] font-bold text-black/45"><Link href="/" className="hover:text-black">Home</Link> / Shop{q ? ` / “${q}”` : ""}</p>
+          <h1 className="mega-type mt-2 text-[clamp(2.6rem,6vw,5rem)]">Shop systems<span className="text-[#b98a1f]">.</span></h1>
+          <p className="mt-3 max-w-2xl text-sm font-medium text-black/55 md:text-[15px]">{t("shop_desc")} Every price includes fitting, GST bill and 1-year service in Pune.</p>
         </div>
       </div>
 
       <div className="mx-auto max-w-[1440px] px-4 md:px-8">
         {/* visual category selector */}
-        <div className="mt-6 grid grid-cols-4 gap-2.5 md:gap-3">
+        <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4 md:gap-3">
           {cats.map((c) => {
             const active = (c.value ?? undefined) === cat && !q;
             const n = c.value ? PRODUCTS.filter((p) => p.category === c.value).length : PRODUCTS.length;
@@ -69,8 +69,9 @@ function List() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={c.img} alt={c.label} className="hidden aspect-[16/8] w-full object-cover sm:block" />
                 <span className="block p-3 md:p-4">
-                  <span className="block text-sm font-extrabold md:text-base">{c.label} · {n}</span>
-                  <span className={`block text-[11px] font-bold md:text-[12px] ${active ? "text-white/60" : "text-stone-400"}`}>{active ? "Selected ✓" : "Tap to filter"}</span>
+                  <span className="block truncate text-sm font-extrabold md:text-base">{c.label}</span>
+                  <span className={`block text-[12px] font-bold md:text-[13px] ${active ? "text-white/70" : "text-stone-500"}`}>{n} systems</span>
+                  <span className={`mt-0.5 block text-[11px] font-bold md:text-[12px] ${active ? "text-white" : "text-stone-400"}`}>{active ? "Selected ✓" : "Tap to filter"}</span>
                 </span>
               </Link>
             );
@@ -96,10 +97,10 @@ function List() {
           ))}
         </div>
 
-        <div className="mb-10 grid gap-3 rounded-[1.75rem] bg-black p-7 text-sm text-white md:grid-cols-3 md:p-8">
-          <p><strong className="text-[#e8b62a]">Free visit.</strong> <span className="text-white/65">Measure first, pay later.</span></p>
-          <p><strong className="text-[#e8b62a]">90-min fitting.</strong> <span className="text-white/65">Anchors + cleanup included.</span></p>
-          <p><strong className="text-[#e8b62a]">Serviceable.</strong> <span className="text-white/65">Rope + pulleys replaceable.</span></p>
+        <div className="mb-10 grid gap-3 rounded-[1.75rem] border border-black/10 bg-white p-7 text-sm md:grid-cols-3 md:p-8">
+          <p><strong className="text-[#173063]">Free visit.</strong> <span className="text-black/55">Measure first, pay later.</span></p>
+          <p><strong className="text-[#173063]">90-min fitting.</strong> <span className="text-black/55">Anchors + cleanup included.</span></p>
+          <p><strong className="text-[#173063]">Serviceable.</strong> <span className="text-black/55">Rope + pulleys replaceable.</span></p>
         </div>
       </div>
     </div>

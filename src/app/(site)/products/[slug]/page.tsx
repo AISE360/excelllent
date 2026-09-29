@@ -39,7 +39,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
     offers: { "@type": "Offer", priceCurrency: "INR", price: p.price, availability: "https://schema.org/InStock" },
   };
   return (
-    <div className="bg-[#f7f5ef] pb-24 lg:pb-0">
+    <div className="bg-[#f4f7fd] pb-24 lg:pb-0">
       <div className="mx-auto max-w-[1440px] px-4 py-6 md:px-8 md:py-10">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <p className="text-[12px] font-bold text-stone-400">
@@ -52,7 +52,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
             <div className="relative overflow-hidden rounded-[1.75rem] border border-black/10 bg-white p-6 md:p-10">
               <span className="absolute left-5 top-5 flex gap-2">
                 <span className="rounded-md bg-black px-2.5 py-1 text-[11px] font-extrabold uppercase text-white">Bestseller</span>
-                <span className="rounded-md bg-[#e8b62a] px-2.5 py-1 text-[11px] font-extrabold text-black">Save {off}%</span>
+                <span className="rounded-md bg-[#d9232e] px-2.5 py-1 text-[11px] font-extrabold text-white">Save {off}%</span>
               </span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={p.image} alt={p.name} className="mx-auto aspect-[4/3.4] w-full max-w-lg object-contain" />
@@ -69,7 +69,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
 
           {/* buy panel */}
           <div className="h-fit rounded-[1.75rem] border border-black/10 bg-white p-6 md:p-8 lg:sticky lg:top-32">
-            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#0b3b39]">{p.category} · {p.size} · {p.lines} lines</p>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#173063]">{p.category} · {p.size} · {p.lines} lines</p>
             <h1 className="mt-2 text-[clamp(1.8rem,3vw,2.8rem)] font-extrabold leading-[1.05] tracking-tight">{p.name}</h1>
             <p className="mt-2 text-[13px] font-bold">★★★★★ 4.8 · 2,300+ Pune fittings · GST bill</p>
             <p className="mt-4 flex flex-wrap items-baseline gap-2.5">
@@ -90,7 +90,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
 
             <div className="mt-6 hidden gap-2 lg:flex">
               <AddToCart slug={p.slug} />
-              <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="flex flex-1 items-center justify-center rounded-full bg-[#e8b62a] py-3.5 text-sm font-extrabold text-black hover:brightness-95">
+              <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="flex flex-1 items-center justify-center rounded-full bg-[#d9232e] py-3.5 text-sm font-extrabold text-white hover:brightness-95">
                 {t("d_ordernow")}
               </Link>
             </div>
@@ -100,9 +100,9 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
               <li>✓ 1-year rope + pulley service</li>
             </ul>
 
-            <div className="mt-5 rounded-2xl bg-[#0b3b39] p-5 text-white">
+            <div className="mt-5 rounded-2xl border border-black/10 bg-[#f4f7fd] p-5">
               <p className="font-extrabold">{t("d_order")}</p>
-              <div className="mt-3 rounded-xl bg-white p-3 text-black"><EnquiryForm product={p.name} /></div>
+              <div className="mt-3 rounded-xl border border-black/10 bg-white p-3"><EnquiryForm product={p.name} /></div>
             </div>
           </div>
         </div>
@@ -116,14 +116,14 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
               ))}
             </dl>
           </div>
-          <div className="overflow-hidden rounded-[1.75rem] bg-black text-white">
+          <div className="overflow-hidden rounded-[1.75rem] border border-black/10 bg-white">
             <div className="p-6 md:p-8">
-              <p className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-[#e8b62a]">Rope vs stand vs pulley</p>
+              <p className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-[#173063]">Rope vs stand vs pulley</p>
               <p className="mt-2 text-2xl font-extrabold">Pulley wins on space, speed and life.</p>
             </div>
-            <div className="grid grid-cols-3 gap-px bg-white/10 text-center text-[13px] font-bold">
+            <div className="grid grid-cols-3 gap-px border-t border-black/10 bg-black/[0.07] text-center text-[13px] font-bold">
               {[["Pulley", "0 sq ft", "8–10 yrs", "✓ Fitted"], ["Rope", "0 sq ft", "6–12 mo", "✕ Sag"], ["Stand", "10 sq ft", "2–3 yrs", "✕ Rust"]].map((c) => (
-                <div key={c[0]} className="bg-[#0b0b0b] p-4"><p className="font-extrabold">{c[0]}</p><p className="mt-1 text-white/60">{c[1]}<br />{c[2]}<br />{c[3]}</p></div>
+                <div key={c[0]} className="bg-[#f4f7fd] p-4"><p className="font-extrabold">{c[0]}</p><p className="mt-1 text-black/55">{c[1]}<br />{c[2]}<br />{c[3]}</p></div>
               ))}
             </div>
           </div>
@@ -146,7 +146,7 @@ export default async function ProductDetail({ params }: { params: Promise<{ slug
             <p className="text-sm font-extrabold">{inr(p.price)} <span className="font-semibold text-stone-400 line-through">{inr(p.mrp)}</span></p>
           </div>
           <div className="w-36"><AddToCart slug={p.slug} /></div>
-          <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="rounded-full bg-[#e8b62a] px-5 py-3.5 text-sm font-extrabold text-black">Visit</Link>
+          <Link href={`/contact?product=${encodeURIComponent(p.name)}`} className="rounded-full bg-[#d9232e] px-5 py-3.5 text-sm font-extrabold text-white">Visit</Link>
         </div>
       </div>
     </div>

@@ -62,7 +62,7 @@ export default function GalleryGrid({ files }: { files: string[] }) {
           <button
             aria-label="Previous"
             onClick={(e) => { e.stopPropagation(); step(-1); }}
-            className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#e8b62a] hover:text-black md:left-6"
+            className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#d9232e] hover:text-white md:left-6"
           >
             <ChevronLeft size={22} />
           </button>
@@ -70,13 +70,13 @@ export default function GalleryGrid({ files }: { files: string[] }) {
           <img
             src={`/legacy/gallery/big/${files[open]}`}
             alt={`Excellent Dry installation ${open + 1}`}
-            className="max-h-[85vh] max-w-full rounded-2xl object-contain shadow-2xl"
+            className="max-h-[85dvh] max-w-full rounded-2xl object-contain shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
           <button
             aria-label="Next"
             onClick={(e) => { e.stopPropagation(); step(1); }}
-            className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#e8b62a] hover:text-black md:right-6"
+            className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-[#d9232e] hover:text-white md:right-6"
           >
             <ChevronRight size={22} />
           </button>

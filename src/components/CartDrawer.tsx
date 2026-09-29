@@ -47,7 +47,7 @@ export default function CartDrawer() {
           <button onClick={() => setCartOpen(false)} aria-label="Close cart" className="rounded-full p-2 hover:bg-black/5"><X size={20} /></button>
         </div>
 
-        <div className="border-b border-black/[0.07] bg-[#f7f5ef] px-5 py-3 text-[12px] font-bold text-[#0b3b39]">
+        <div className="border-b border-black/[0.07] bg-[#f4f7fd] px-5 py-3 text-[12px] font-bold text-[#173063]">
           Free site visit + installation in Pune · Pay after fitting
         </div>
 
@@ -56,7 +56,7 @@ export default function CartDrawer() {
             <div className="py-14 text-center">
               <p className="text-xl font-extrabold">Nothing here yet.</p>
               <p className="mt-1 text-sm text-stone-500">Pick a size. Most balconies take 5–6 ft.</p>
-              <button onClick={() => setCartOpen(false)} className="mt-5 rounded-full bg-[#0b3b39] px-6 py-3 text-sm font-bold text-white">
+              <button onClick={() => setCartOpen(false)} className="mt-5 rounded-full bg-[#173063] px-6 py-3 text-sm font-bold text-white">
                 <Link href="/products">Browse systems</Link>
               </button>
             </div>
@@ -65,7 +65,7 @@ export default function CartDrawer() {
               {detailed.map(({ product: p, qty }) => (
                 <li key={p.slug} className="flex gap-3 rounded-2xl border border-black/10 p-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.image} alt={p.name} className="h-16 w-16 rounded-xl bg-[#f7f5ef] object-contain" />
+                  <img src={p.image} alt={p.name} className="h-16 w-16 rounded-xl bg-[#f4f7fd] object-contain" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13px] font-bold">{p.name}</p>
                     <p className="text-[13px] font-extrabold">{inr(p.price * qty)}</p>
@@ -91,7 +91,7 @@ export default function CartDrawer() {
             <a href={wa} target="_blank" className="mt-3 block rounded-full bg-[#25D366] p-3.5 text-center text-sm font-extrabold text-white">
               Order on WhatsApp →
             </a>
-            <Link href="/cart" onClick={() => setCartOpen(false)} className="btn-slide mt-2 flex items-center justify-center gap-1.5 rounded-full bg-[#0b3b39] p-3.5 text-center text-sm font-bold text-white">
+            <Link href="/cart" onClick={() => setCartOpen(false)} className="btn-slide mt-2 flex items-center justify-center gap-1.5 rounded-full bg-[#173063] p-3.5 text-center text-sm font-bold text-white">
               Review & checkout <ArrowRight size={15} />
             </Link>
           </div>

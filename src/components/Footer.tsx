@@ -8,14 +8,14 @@ export default async function Footer() {
   const lang = await getLang();
   const t = (k: Parameters<typeof tr>[1]) => tr(lang, k);
   return (
-    <footer className="mt-24 bg-[#051e1d] text-white">
+    <footer className="mt-24 bg-[#071026] text-white">
       {/* full-bleed CTA */}
       <div className="mx-auto max-w-[1440px] px-4 py-14 md:px-8 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-end">
           <div>
-            <p className="eyebrow !text-[#e8b62a]">Excellent Dry · Pune · Since 2014</p>
+            <p className="eyebrow !text-[#d9232e]">Excellent Dry · Pune · Since 2014</p>
             <p className="mega-type mt-4 text-[clamp(2.8rem,6vw,5.5rem)]">
-              Reclaim your<br />balcony<span className="text-[#e8b62a]">.</span>
+              Reclaim your<br />balcony<span className="text-[#d9232e]">.</span>
             </p>
             <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/65">
               Pulley terrace, ceiling and foldable wall systems in 304-grade steel. Measured, fitted and serviced by our own Pune team. Not a courier box.
@@ -25,7 +25,7 @@ export default async function Footer() {
             <p className="text-lg font-extrabold">Free site visit this week</p>
             <p className="mt-1 text-sm text-white/60">Baner · Wakad · Hinjewadi · Kothrud · Kharadi · Hadapsar + 40 areas</p>
             <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
-              <Link href="/contact" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#e8b62a] px-6 py-3.5 text-sm font-extrabold text-black hover:brightness-95">
+              <Link href="/contact" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#d9232e] px-6 py-3.5 text-sm font-extrabold text-white hover:brightness-95">
                 {t("cta_quote")} <ArrowUpRight size={16} />
               </Link>
               <a href={`tel:${SITE.phone1.replace(/\s/g, "")}`} className="flex flex-1 items-center justify-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-sm font-bold hover:bg-white/10">
@@ -42,10 +42,10 @@ export default async function Footer() {
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Systems</p>
             <ul className="mt-4 space-y-2.5 text-[15px] font-bold">
-              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Open Terrace">Open Terrace Pulley →</Link></li>
-              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Ceiling Mount">Ceiling Pulley →</Link></li>
-              <li><Link className="hover:text-[#e8b62a]" href="/products?cat=Wall Mount">Foldable Wall →</Link></li>
-              <li><Link className="hover:text-[#e8b62a]" href="/products">Compare all 24 →</Link></li>
+              <li><Link className="hover:text-[#d9232e]" href="/products?cat=Open Terrace">Open Terrace Pulley →</Link></li>
+              <li><Link className="hover:text-[#d9232e]" href="/products?cat=Ceiling Mount">Ceiling Pulley →</Link></li>
+              <li><Link className="hover:text-[#d9232e]" href="/products?cat=Wall Mount">Foldable Wall →</Link></li>
+              <li><Link className="hover:text-[#d9232e]" href="/products">Compare all 24 →</Link></li>
             </ul>
           </div>
           <div>
@@ -61,9 +61,9 @@ export default async function Footer() {
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-white/40">Contact</p>
             <ul className="mt-4 space-y-3 text-white/75">
-              <li className="flex gap-2"><MapPin size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.address}</li>
-              <li className="flex gap-2 font-bold text-white"><Phone size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.phone1} · {SITE.phone2}</li>
-              <li className="flex gap-2"><Mail size={15} className="mt-0.5 shrink-0 text-[#e8b62a]" />{SITE.email}</li>
+              <li className="flex gap-2"><MapPin size={15} className="mt-0.5 shrink-0 text-[#d9232e]" />{SITE.address}</li>
+              <li className="flex gap-2 font-bold text-white"><Phone size={15} className="mt-0.5 shrink-0 text-[#d9232e]" />{SITE.phone1} · {SITE.phone2}</li>
+              <li className="flex gap-2"><Mail size={15} className="mt-0.5 shrink-0 text-[#d9232e]" />{SITE.email}</li>
             </ul>
           </div>
           <div>
@@ -74,7 +74,7 @@ export default async function Footer() {
               <li>✓ 1,00,000+ Pune fittings</li>
               <li>✓ Serviceable rope + pulleys</li>
             </ul>
-            <Link href="/contact" className="mt-4 inline-block rounded-full bg-white px-5 py-2.5 text-[13px] font-extrabold text-black hover:bg-[#e8b62a]">Get price on WhatsApp</Link>
+            <Link href="/contact" className="mt-4 inline-block rounded-full bg-white px-5 py-2.5 text-[13px] font-extrabold text-black hover:bg-[#d9232e] hover:text-white">Get price on WhatsApp</Link>
           </div>
         </div>
       </div>

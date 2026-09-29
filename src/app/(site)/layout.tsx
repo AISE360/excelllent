@@ -12,7 +12,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <ScrollTop />
       <Navbar />
       <CartDrawer />
-      <main className="min-h-[60vh]">{children}</main>
+      <main className="min-h-[60dvh]">{children}</main>
       <Footer />
       <WhatsAppFloat />
     </CartProvider>

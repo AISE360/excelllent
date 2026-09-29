@@ -54,7 +54,7 @@ export default function BeforeAfter({
         </span>
       </div>
 
-      <span className="absolute right-5 top-5 rounded-md bg-[#e8b62a] px-3 py-1.5 text-[12px] font-extrabold uppercase tracking-wider text-black">
+      <span className="absolute right-5 top-5 rounded-md bg-[#d9232e] px-3 py-1.5 text-[12px] font-extrabold uppercase tracking-wider text-white">
         After · pulley
       </span>
 

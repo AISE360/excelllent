@@ -36,6 +36,7 @@ export default function Navbar() {
   const [q, setQ] = useState("");
   const [mobile, setMobile] = useState(false);
   const [mega, setMega] = useState(false);
+  const [shopOpen, setShopOpen] = useState(true);
   const closeTimer = useRef<number | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -84,11 +85,11 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-[80]">
       {/* full-bleed marquee utility */}
-      <div className="overflow-hidden bg-[#072928] text-white">
+      <div className="overflow-hidden bg-[#0c1c3d] text-white">
         <div className="marquee flex whitespace-nowrap py-2 text-[12px] font-bold tracking-wide">
           <div className="marquee-track flex w-max shrink-0 items-center gap-10 pr-10">
             {Array(4).fill(["Free site visit across Pune", "1,00,000+ installations", "304-grade steel", "Pay after fitting", "1-year service", "Same-week slots"]).flat().map((s, i) => (
-              <span key={i} className="flex shrink-0 items-center gap-10"><span>{s}</span><span className="text-[#e8b62a]">●</span></span>
+              <span key={i} className="flex shrink-0 items-center gap-10"><span>{s}</span><span className="text-[#d9232e]">●</span></span>
             ))}
           </div>
         </div>
@@ -107,20 +108,18 @@ export default function Navbar() {
 
           <nav className="ml-6 hidden items-center gap-1 lg:flex">
             <div>
-              <button
+              <Link
+                href="/products"
                 onMouseEnter={openMega}
                 onMouseLeave={hoverOutMega}
-                onClick={() => {
-                  if (closeTimer.current) window.clearTimeout(closeTimer.current);
-                  setMega((v) => !v);
-                }}
+                onClick={() => setMega(false)}
                 aria-expanded={mega}
                 aria-haspopup="true"
                 data-open={mega}
                 className="nav-water flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[14px] font-extrabold hover:bg-black/5"
               >
                 <span className="nav-label">Shop systems <ChevronDown size={14} className={`transition ${mega ? "rotate-180" : ""}`} /></span>
-              </button>
+              </Link>
             </div>
             {[
               { l: t("nav_gallery"), h: "/gallery" },
@@ -135,7 +134,7 @@ export default function Navbar() {
           </nav>
 
           <form onSubmit={search} className="ml-auto hidden min-w-0 flex-1 max-w-xs items-center xl:flex">
-            <div className="flex w-full items-center gap-2 rounded-full border border-black/10 bg-[#f7f5ef] px-4 py-2.5 focus-within:border-[#0b3b39] focus-within:bg-white">
+            <div className="flex w-full items-center gap-2 rounded-full border border-black/10 bg-[#f4f7fd] px-4 py-2.5 focus-within:border-[#173063] focus-within:bg-white">
               <Search size={15} className="text-black/40" />
               <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("search_ph")} className="w-full bg-transparent text-sm outline-none" />
             </div>
@@ -146,19 +145,43 @@ export default function Navbar() {
             <a href={`tel:${SITE.phone1.replace(/\s/g, "")}`} className="hidden h-11 items-center gap-1.5 rounded-full border border-black/10 px-4 text-[13px] font-extrabold hover:border-black md:inline-flex">
               <Phone size={14} /> {SITE.phone1.replace("+91 ", "")}
             </a>
-            <button onClick={openCart} className="relative inline-flex h-11 items-center gap-2 rounded-full bg-[#0b3b39] px-5 text-sm font-bold text-white shadow-lg transition hover:bg-[#072928]">
+            <button onClick={openCart} className="relative inline-flex h-11 items-center gap-2 rounded-full bg-[#173063] px-5 text-sm font-bold text-white shadow-lg transition hover:bg-[#0c1c3d]">
               <ShoppingBag size={16} /> <span className="hidden sm:inline">{t("cart")}</span>
-              {cartCount > 0 && <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#e8b62a] px-1.5 text-[11px] font-extrabold text-black">{cartCount}</span>}
+              {cartCount > 0 && <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#d9232e] px-1.5 text-[11px] font-extrabold text-white">{cartCount}</span>}
             </button>
           </div>
         </div>
 
         {mobile && (
           <div className="border-t border-black/10 bg-white px-4 pb-6 lg:hidden">
-            <form onSubmit={search} className="mt-3 flex items-center gap-2 rounded-full bg-[#f7f5ef] px-4 py-3">
+            <form onSubmit={search} className="mt-3 flex items-center gap-2 rounded-full bg-[#f4f7fd] px-4 py-3">
               <Search size={17} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("search_ph")} className="w-full bg-transparent text-sm outline-none" />
             </form>
-            {[...MEGA.map((m) => ({ l: m.title, h: m.href })), { l: t("nav_gallery"), h: "/gallery" }, { l: t("nav_reviews"), h: "/testimonials" }, { l: t("nav_contact"), h: "/contact" }].map((n) => (
+            {/* Shop systems accordion — mirrors desktop */}
+            <div className="border-b border-black/[0.06]">
+              <button
+                onClick={() => setShopOpen((v) => !v)}
+                aria-expanded={shopOpen}
+                className="flex w-full items-center justify-between py-3.5 text-left text-[15px] font-extrabold"
+              >
+                Shop systems
+                <ChevronDown size={17} className={`text-black/40 transition ${shopOpen ? "rotate-180" : ""}`} />
+              </button>
+              {shopOpen && (
+                <div className="fade-in pb-2">
+                  <Link href="/products" onClick={() => setMobile(false)} className="flex items-center justify-between rounded-xl bg-[#f4f7fd] px-4 py-3 text-sm font-extrabold text-[#173063]">
+                    All 24 systems <span>→</span>
+                  </Link>
+                  {MEGA.map((m) => (
+                    <Link key={m.title} href={m.href} onClick={() => setMobile(false)} className="flex items-center justify-between border-b border-black/[0.05] py-3 pl-2 pr-1 text-[14px] font-bold text-black/70 last:border-0">
+                      <span>{m.title} <span className="font-semibold text-black/35">· {m.price}</span></span>
+                      <span className="text-black/30">→</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            {[{ l: t("nav_gallery"), h: "/gallery" }, { l: t("nav_reviews"), h: "/testimonials" }, { l: t("nav_clients"), h: "/clients" }, { l: t("nav_contact"), h: "/contact" }].map((n) => (
               <Link key={n.h + n.l} href={n.h} onClick={() => setMobile(false)} className="flex items-center justify-between border-b border-black/[0.06] py-3.5 font-extrabold">
                 {n.l} <span className="text-black/30">→</span>
               </Link>
@@ -175,11 +198,11 @@ export default function Navbar() {
           >
             <div className="mx-auto grid max-w-[1440px] grid-cols-3 gap-4 px-8 py-6">
               {MEGA.map((m) => (
-                <Link key={m.title} href={m.href} onClick={() => setMega(false)} className="group overflow-hidden rounded-3xl border border-black/10 bg-[#f7f5ef] transition hover:-translate-y-1 hover:shadow-xl">
+                <Link key={m.title} href={m.href} onClick={() => setMega(false)} className="group overflow-hidden rounded-3xl border border-black/10 bg-[#f4f7fd] transition hover:-translate-y-1 hover:shadow-xl">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.img} alt={m.title} className="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105" />
                   <span className="block p-5">
-                    <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#0b3b39]">{m.price}</span>
+                    <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#173063]">{m.price}</span>
                     <span className="mt-0.5 block text-xl font-extrabold tracking-tight">{m.title} →</span>
                     <span className="block text-sm text-stone-500">{m.desc}</span>
                   </span>
@@ -188,7 +211,7 @@ export default function Navbar() {
             </div>
             <div className="mx-auto flex max-w-[1440px] items-center justify-between px-8 pb-5">
               <p className="text-[13px] font-semibold text-stone-500">All prices include fitting in Pune · GST bill · pay after demo</p>
-              <Link href="/products" onClick={() => setMega(false)} className="text-sm font-extrabold text-[#0b3b39] underline underline-offset-4">View all 24 systems →</Link>
+              <Link href="/products" onClick={() => setMega(false)} className="text-sm font-extrabold text-[#173063] underline underline-offset-4">View all 24 systems →</Link>
             </div>
           </div>
         )}

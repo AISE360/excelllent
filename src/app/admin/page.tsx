@@ -196,7 +196,7 @@ export default function AdminPage() {
     return (
       <>
         <AdminBar />
-        <div className="bg-card min-h-[70vh]">
+        <div className="bg-card min-h-[70dvh]">
         <div className="mx-auto max-w-md px-4 py-16">
           <p className="font-display text-4xl font-bold">Admin login.</p>
           <p className="mt-1 text-sm text-stone-500">
@@ -354,7 +354,7 @@ export default function AdminPage() {
               </div>
               {editing && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4">
-                  <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto bg-white p-6">
+                  <div className="max-h-[90dvh] w-full max-w-lg overflow-y-auto bg-white p-6">
                     <p className="font-display text-3xl font-bold">{isNew ? "Add product." : "Edit product."}</p>
                     <div className="mt-4 grid gap-3">
                       <input className={inp} placeholder="Product name" value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} />

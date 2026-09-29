@@ -10,7 +10,7 @@ export default function DeliveryTicker() {
   const areas = [...DELIVERY_AREAS, ...DELIVERY_AREAS, ...DELIVERY_AREAS, ...DELIVERY_AREAS];
   return (
     <div className="flex items-stretch border-y border-black/[0.07] bg-white">
-      <span className="z-10 flex shrink-0 items-center gap-2 bg-[#0b3b39] px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-white">
+      <span className="z-10 flex shrink-0 items-center gap-2 bg-[#173063] px-4 py-2.5 text-[12px] font-extrabold uppercase tracking-wider text-white">
         <MapPin size={14} /> {t("delivery_t")}
       </span>
       <div className="marquee marquee-mask relative flex-1 overflow-hidden">
@@ -19,7 +19,7 @@ export default function DeliveryTicker() {
             <Link
               key={i}
               href={`/contact?area=${encodeURIComponent(a)}`}
-              className="shrink-0 whitespace-nowrap transition hover:text-[#0b3b39]"
+              className="shrink-0 whitespace-nowrap transition hover:text-[#173063]"
             >
               {a} <span className="ml-6 text-[#b98a1f]">•</span>
             </Link>

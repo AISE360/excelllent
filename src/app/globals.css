@@ -1,34 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  /* Premium single-hue system — deep pine + warm paper + brass accent */
-  --color-ink: #141a18;
-  --color-ink-soft: #3d4744;
-  --color-muted: #6b7672;
-  --color-line: #e5e1d6;
+  /* Logo-driven premium — deep navy + signal red + ice paper */
+  --color-ink: #101d33;
+  --color-ink-soft: #454f66;
+  --color-muted: #6b7690;
+  --color-line: #cfd9ec;
 
-  --color-paper: #f7f5ef;
-  --color-cream: #f7f5ef;
-  --color-cream-deep: #ece7d8;
+  --color-paper: #f4f7fd;
+  --color-cream: #f4f7fd;
+  --color-cream-deep: #d3ddf1;
   --color-card: #ffffff;
 
-  --color-pine: #0b3b39;
-  --color-pine-deep: #072928;
-  --color-pine-600: #10504d;
-  --color-pine-700: #0b3b39;
-  --color-pine-800: #072928;
-  --color-pine-900: #051e1d;
-  --color-pine-950: #041413;
+  --color-pine: #173063;
+  --color-pine-deep: #0c1c3d;
+  --color-pine-600: #2e4a8a;
+  --color-pine-700: #173063;
+  --color-pine-800: #0c1c3d;
+  --color-pine-900: #071026;
+  --color-pine-950: #071026;
 
-  --color-sage: #8fb0a6;
-  --color-sage-deep: #5f857b;
+  --color-sage: #9aa7c4;
+  --color-sage-deep: #64739a;
 
   --color-gold: #b98a1f;
-  --color-brand-yellow: #e8b62a;
-  --color-brand-cyan: #0b3b39;
-  --color-brand-cyan-deep: #0b3b39;
-  --color-brand-red: #c2410c;
-  --color-topbar: #0b3b39;
+  --color-brand-yellow: #d9232e;
+  --color-brand-cyan: #173063;
+  --color-brand-cyan-deep: #173063;
+  --color-brand-red: #d9232e;
+  --color-topbar: #173063;
 
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
@@ -47,10 +47,11 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "ss01", "cv05";
+  overflow-x: clip;
 }
 
 ::selection {
-  background: #0b3b39;
+  background: #173063;
   color: #fff;
 }
 
@@ -101,6 +102,26 @@ body {
   line-height: 0.95;
 }
 
+/* outlined display type */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.35);
+}
+.text-outline-ink {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(20 26 24 / 0.22);
+}
+.text-outline-gold {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #d9232e;
+}
+
+/* slow rotation for circular badge */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 14s linear infinite; }
+
 .glass {
   background: rgb(255 255 255 / 0.86);
   backdrop-filter: blur(18px);
@@ -108,7 +129,7 @@ body {
   border: 1px solid rgb(255 255 255 / 0.6);
 }
 .glass-dark {
-  background: rgb(7 41 40 / 0.72);
+  background: rgb(12 28 61 / 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgb(255 255 255 / 0.14);
@@ -136,7 +157,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  background: #e8b62a;
+  background: #d9232e;
   animation: ping-soft 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
@@ -201,7 +222,7 @@ details.faq[open] .faq-plus { transform: rotate(45deg); }
 }
 .lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -20px rgb(11 59 57 / 0.28);
+  box-shadow: 0 20px 40px -20px rgb(23 48 99 / 0.28);
 }
 
 /* animated nav underline */
@@ -255,7 +276,7 @@ details.faq[open] .faq-plus { transform: rotate(45deg); }
   content: "";
   position: absolute;
   left: 50%;
-  top: 115%;
+  top: 170%;
   width: 230%;
   aspect-ratio: 1;
   translate: -50% 0;
@@ -265,11 +286,11 @@ details.faq[open] .faq-plus { transform: rotate(45deg); }
   pointer-events: none;
 }
 .nav-water::before {
-  background: rgb(14 79 77 / 0.35);
+  background: rgb(46 74 138 / 0.4);
   border-radius: 43%;
 }
 .nav-water::after {
-  background: #0b3b39;
+  background: #173063;
   border-radius: 47%;
   animation-duration: 6s;
   animation-direction: reverse;

@@ -37,7 +37,7 @@ export default function EnquiryForm({ product = "", area = "" }: { product?: str
       `Hi Excellent Dry! I'm ${form.name} from ${form.area}. Interested in: ${form.product || "dry system"}. Please call ${form.phone}.`
     )}`;
     return (
-      <div className="border border-teal-200 bg-teal-50 p-6 text-center">
+      <div className="rounded-2xl border border-[#173063]/25 bg-[#173063]/5 p-6 text-center">
         <p className="font-display text-3xl font-bold">{t("form_thanks")}, {form.name.split(" ")[0] || "friend"}!</p>
         <p className="mt-1 text-sm text-stone-600">{t("form_back")} ({SITE.hours})</p>
         <a href={wa} target="_blank" className="mt-4 inline-block bg-[#25D366] px-6 py-3 text-sm font-bold text-white">
